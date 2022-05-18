@@ -1,14 +1,17 @@
 import { CreateEventData } from "./CreateEventData";
 import { EditEventData } from "./EditEventData";
 import { EventMaster } from "./EventMaster";
+import { Guest } from "./Guest";
+import { GuestData } from "./GuestData";
 import { User } from "./User";
 
 export class Event extends EventMaster {
-  private id: number;
+  private readonly id: number;
   private start: Date;
   private duration: number;
   private title: string;
-  private creator: User;
+  private readonly creator: User;
+  private readonly guests: Guest[];
 
   constructor(data: CreateEventData, whoIsCreating: User) {
     super();
@@ -18,6 +21,7 @@ export class Event extends EventMaster {
     this.duration = data.duration ?? 0;
     this.title = title;
     this.creator = whoIsCreating;
+    this.guests = [];
   }
 
   public getData() {
@@ -36,5 +40,17 @@ export class Event extends EventMaster {
       if (data.duration) this.duration = data.duration;
       if (data.title) this.title = data.title;
     }
+  }
+
+  public setGuests(guestsData: GuestData[], whoIsEditing: User): void {
+    if (whoIsEditing === this.creator) {
+      guestsData.forEach(({ user, permission }) =>
+        this.guests.push(new Guest(this, user, permission))
+      );
+    }
+  }
+
+  public getGuests(): Guest[] {
+    return this.guests;
   }
 }
