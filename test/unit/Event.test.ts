@@ -330,7 +330,7 @@ describe("Event Manipulated by Editor", () => {
     expect(event.getGuests().length).toBe(3);
   });
 
-  it("should editor cannot cancel event", () => {
+  it("should not editor can cancel event", () => {
     let event = eventBuilder(new Date());
 
     const canCancel = event.canTheUserCancel(userEditor);
@@ -500,5 +500,13 @@ describe("Event Manipulated by Editor", () => {
       new Guest(event, userEditor, Permission.Editor)
     );
     expect(event.getGuests().length).toBe(2);
+  });
+
+  it("should not viewer can cancel event", () => {
+    let event = eventBuilder(new Date());
+
+    const canCancel = event.canTheUserCancel(userViewer);
+
+    expect(canCancel).toBe(false);
   });
 });
