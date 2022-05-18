@@ -274,4 +274,29 @@ describe("Event Manipulated by Editor", () => {
     expect(event.getData().id).toBe(1);
     expect(event.getGuests().length).toBe(0);
   });
+
+  it("should editor can set guests permissions", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+
+    const guests: GuestData[] = [];
+    guests.push({
+      user: userEditor,
+      permission: Permission.Viewer,
+    });
+    guests.push({
+      user: userViewer,
+      permission: Permission.Editor,
+    });
+    event.setGuests(guests, userEditor);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Viewer)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Editor)
+    );
+    expect(event.getGuests().length).toBe(2);
+  });
 });
