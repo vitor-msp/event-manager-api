@@ -1,4 +1,5 @@
 import { CreateEventData } from "./CreateEventData";
+import { CreatorCannotExitError } from "./CreatorCannotExitError";
 import { EditEventData } from "./EditEventData";
 import { EventMaster } from "./EventMaster";
 import { Guest } from "./Guest";
@@ -95,6 +96,7 @@ export class Event extends EventMaster {
   }
 
   public exitOfTheEvent(whoIsExiting: User): void {
+    if (this.creator === whoIsExiting) throw new CreatorCannotExitError();
     if (this.findGuestIndex(whoIsExiting) === -1) throw new UserIsNotAGuestError();
     this.guests = this.guests.filter((g) => g.user !== whoIsExiting);
   }

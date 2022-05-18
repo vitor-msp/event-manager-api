@@ -1,4 +1,5 @@
 import { CreateEventData } from "../../src/domain/CreateEventData";
+import { CreatorCannotExitError } from "../../src/domain/CreatorCannotExitError";
 import { EditEventData } from "../../src/domain/EditEventData";
 import { Event } from "../../src/domain/Event";
 import { Guest } from "../../src/domain/Guest";
@@ -166,6 +167,15 @@ describe("Event Manipulated by Creator", () => {
     const canCancel = event.canTheUserCancel(userCreator);
 
     expect(canCancel).toBe(true);
+  });
+
+  it("should not creator can exit of the event", () => {
+    let event = eventBuilder(new Date());
+
+    expect(() => event.exitOfTheEvent(userCreator)).toThrow(CreatorCannotExitError);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getData().creator).toEqual(userCreator);
   });
 });
 
