@@ -28,7 +28,7 @@ describe("Create Event", () => {
     expect(creator).toEqual(user);
   });
 
-  it("should edit event data", () => {
+  it("should creator can edit event data", () => {
     const eventStart = new Date();
       const event = eventBuilder(eventStart);
 
@@ -40,7 +40,7 @@ describe("Create Event", () => {
         duration: TenMinutesInSeconds,
         title: "Test Event Edited",
     };    
-    event.setData(newEventData);
+    event.setData(newEventData, user);
 
     const { id, start, duration, title, creator } = event.getData();
     expect(id).toBe(1);

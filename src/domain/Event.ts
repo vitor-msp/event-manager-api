@@ -30,9 +30,11 @@ export class Event extends EventMaster {
     };
   }
 
-  public setData(data: EditEventData): void {
-    if (data.start) this.start = data.start;
-    if (data.duration) this.duration = data.duration;
-    if (data.title) this.title = data.title;
+  public setData(data: EditEventData, whoIsEditing: User): void {
+    if (whoIsEditing === this.creator) {
+      if (data.start) this.start = data.start;
+      if (data.duration) this.duration = data.duration;
+      if (data.title) this.title = data.title;
+    }
   }
 }
