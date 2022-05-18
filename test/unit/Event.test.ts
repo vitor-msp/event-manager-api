@@ -261,4 +261,17 @@ describe("Event Manipulated by Editor", () => {
     );
     expect(event.getGuests().length).toBe(4);
   });
+
+  it("should editor can remove guests", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+
+    const guests: User[] = [];
+    guests.push(userEditor);
+    guests.push(userViewer);
+    event.removeGuests(guests, userEditor);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests().length).toBe(0);
+  });
 });

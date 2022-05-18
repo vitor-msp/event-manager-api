@@ -82,10 +82,9 @@ export class Event extends EventMaster {
   }
 
   public removeGuests(guests: User[], whoIsEditing: User): void {
-    if (whoIsEditing === this.creator) {
-      for (const guest of guests) {
-        this.guests = this.guests.filter(({ user }) => user !== guest);
-      }
+    if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
+    for (const guest of guests) {
+      this.guests = this.guests.filter(({ user }) => user !== guest);
     }
   }
 
