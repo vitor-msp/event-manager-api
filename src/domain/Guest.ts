@@ -8,4 +8,8 @@ export class Guest {
     public readonly user: User,
     private permission: Permission
   ) {}
+
+  public getPermission(): Permission {
+    return this.permission;
+  }
 }

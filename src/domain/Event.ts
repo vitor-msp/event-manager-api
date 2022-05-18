@@ -3,6 +3,7 @@ import { EditEventData } from "./EditEventData";
 import { EventMaster } from "./EventMaster";
 import { Guest } from "./Guest";
 import { GuestData } from "./GuestData";
+import { Permission } from "./Permission";
 import { User } from "./User";
 
 export class Event extends EventMaster {
@@ -34,12 +35,20 @@ export class Event extends EventMaster {
     };
   }
 
+  private canTheUserEdit(user: User): boolean {
+    if (user === this.creator) return true;
+    const editor = this.guests.find(
+      (g) => g.user === user && g.getPermission() === Permission.Editor
+    );
+    if (editor) return true;
+    return false;
+  }
+
   public setData(data: EditEventData, whoIsEditing: User): void {
-    if (whoIsEditing === this.creator) {
-      if (data.start) this.start = data.start;
-      if (data.duration) this.duration = data.duration;
-      if (data.title) this.title = data.title;
-    }
+    if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
+    if (data.start) this.start = data.start;
+    if (data.duration) this.duration = data.duration;
+    if (data.title) this.title = data.title;
   }
 
   public setGuests(guestsData: GuestData[], whoIsEditing: User): void {
