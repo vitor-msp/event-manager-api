@@ -1,4 +1,5 @@
-import { EventData } from "./EventData";
+import { CreateEventData } from "./CreateEventData";
+import { EditEventData } from "./EditEventData";
 import { EventMaster } from "./EventMaster";
 import { User } from "./User";
 
@@ -9,7 +10,7 @@ export class Event extends EventMaster {
   private title: string;
   private creator: User;
 
-  constructor(data: EventData, whoIsCreating: User) {
+  constructor(data: CreateEventData, whoIsCreating: User) {
     super();
     this.id = super.getNexId();
     const { start, title } = data;
@@ -27,5 +28,11 @@ export class Event extends EventMaster {
       title: this.title,
       creator: this.creator,
     };
+  }
+
+  public setData(data: EditEventData): void {
+    if (data.start) this.start = data.start;
+    if (data.duration) this.duration = data.duration;
+    if (data.title) this.title = data.title;
   }
 }
