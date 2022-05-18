@@ -52,16 +52,15 @@ export class Event extends EventMaster {
   }
 
   public setGuests(guestsData: GuestData[], whoIsEditing: User): void {
-    if (whoIsEditing === this.creator) {
-      guestsData.forEach((guestData) => {
-        const index: number = this.findGuestIndex(guestData.user);
-        if (index === -1) {
-          this.createGuest(guestData);
-        } else {
-          this.editGuest(index, guestData);
-        }
-      });
-    }
+    if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
+    guestsData.forEach((guestData) => {
+      const index: number = this.findGuestIndex(guestData.user);
+      if (index === -1) {
+        this.createGuest(guestData);
+      } else {
+        this.editGuest(index, guestData);
+      }
+    });
   }
 
   private findGuestIndex(user: User): number {
