@@ -4,8 +4,8 @@ import { User } from "./User";
 
 export class Guest {
   constructor(
-    private readonly event: Event,
-    private readonly user: User,
+    public readonly event: Event,
+    public readonly user: User,
     private permission: Permission
   ) {}
 }

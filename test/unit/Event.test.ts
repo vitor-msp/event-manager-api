@@ -8,6 +8,9 @@ import { User } from "../../src/domain/User";
 
 describe("Create Event", () => {
   const userCreator = new User(1);
+  const userEditor = new User(2);
+  const userViewer = new User(3);
+
   const eventBuilder = (start: Date): Event => {
     const oneHourInSeconds = 60 * 60;
     const eventData: CreateEventData = {
@@ -17,6 +20,20 @@ describe("Create Event", () => {
     };
     const userId: number = 1;
     return new Event(eventData, userCreator);
+  };
+
+  const setGuestsToEvent = (event: Event): Event => {
+    const guests: GuestData[] = [];
+    guests.push({
+      user: userEditor,
+      permission: Permission.Editor,
+    });
+    guests.push({
+      user: userViewer,
+      permission: Permission.Viewer,
+    });
+    event.setGuests(guests, userCreator);
+    return event;
   };
 
   it("should create event", () => {
@@ -55,26 +72,28 @@ describe("Create Event", () => {
 
   it("should creator can set guests", () => {
     const eventStart = new Date();
-    const event = eventBuilder(eventStart);
+    let event = eventBuilder(eventStart);
 
-    const guests: GuestData[] = [];
-    const user2 = new User(2);
-    guests.push({
-        user: user2,
-        permission: Permission.Editor,
-    });
-    const user3 = new User(3);
-    guests.push({
-      user: user3,
-      permission: Permission.Viewer,
-    });
-    event.setGuests(guests, userCreator);
+    event = setGuestsToEvent(event);
 
     expect(event.getGuests()).toContainEqual(
-      new Guest(event, user2, Permission.Editor)
+      new Guest(event, userEditor, Permission.Editor)
     );
     expect(event.getGuests()).toContainEqual(
-      new Guest(event, user3, Permission.Viewer)
+      new Guest(event, userViewer, Permission.Viewer)
     );
+  });
+
+  it("should creator can remove guests", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+    event = setGuestsToEvent(event);
+
+    const guests: User[] = [];
+    guests.push(userEditor);
+    guests.push(userViewer);
+    event.removeGuests(guests, userCreator);
+
+    expect(event.getGuests().length).toBe(0);
   });
 });

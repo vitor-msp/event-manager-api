@@ -11,7 +11,7 @@ export class Event extends EventMaster {
   private duration: number;
   private title: string;
   private readonly creator: User;
-  private readonly guests: Guest[];
+  private guests: Guest[];
 
   constructor(data: CreateEventData, whoIsCreating: User) {
     super();
@@ -53,4 +53,12 @@ export class Event extends EventMaster {
   public getGuests(): Guest[] {
     return this.guests;
   }
+
+  public removeGuests(guests: User[], whoIsEditing: User): void {
+    if (whoIsEditing === this.creator) {
+      for (const guest of guests) {
+        this.guests = this.guests.filter(({user}) => user !== guest)
+      }
+    }
+  };
 }
