@@ -46,6 +46,7 @@ describe("Event Manipulated by Creator", () => {
     expect(duration).toBe(60 * 60);
     expect(title).toBe("Test Event");
     expect(creator).toEqual(userCreator);
+    expect(event.getGuests().length).toBe(0);
   });
 
   it("should creator can edit event data", () => {
@@ -68,6 +69,7 @@ describe("Event Manipulated by Creator", () => {
     expect(duration).toBe(TenMinutesInSeconds);
     expect(title).toBe("Test Event Edited");
     expect(creator).toEqual(userCreator);
+    expect(event.getGuests().length).toBe(0);
   });
 
   it("should creator can set guests", () => {
@@ -76,6 +78,7 @@ describe("Event Manipulated by Creator", () => {
 
     event = setGuestsToEvent(event);
 
+    expect(event.getData().id).toBe(1);
     expect(event.getGuests()).toContainEqual(
       new Guest(event, userEditor, Permission.Editor)
     );
@@ -95,6 +98,7 @@ describe("Event Manipulated by Creator", () => {
     guests.push(userViewer);
     event.removeGuests(guests, userCreator);
 
+    expect(event.getData().id).toBe(1);
     expect(event.getGuests().length).toBe(0);
   });
 
@@ -114,6 +118,7 @@ describe("Event Manipulated by Creator", () => {
     });
     event.setGuests(guests, userCreator);
 
+    expect(event.getData().id).toBe(1);
     expect(event.getGuests()).toContainEqual(
       new Guest(event, userEditor, Permission.Viewer)
     );
@@ -122,4 +127,6 @@ describe("Event Manipulated by Creator", () => {
     );
     expect(event.getGuests().length).toBe(2);
   });
+
+
 });
