@@ -6,7 +6,7 @@ import { GuestData } from "../../src/domain/GuestData";
 import { Permission } from "../../src/domain/Permission";
 import { User } from "../../src/domain/User";
 
-describe("Create Event", () => {
+describe("Event Manipulated by Creator", () => {
   const userCreator = new User(1);
   const userEditor = new User(2);
   const userViewer = new User(3);
