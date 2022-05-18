@@ -157,4 +157,13 @@ describe("Event Manipulated by Creator", () => {
     );
     expect(event.getGuests().length).toBe(3);
   });
+
+  it("should creator can cancel event", () => {
+    let event = eventBuilder(new Date());
+    event = setGuestsToEvent(event);
+
+    const canCancel = event.canTheUserCancel(userCreator);
+
+    expect(canCancel).toBe(true);
+  });
 });

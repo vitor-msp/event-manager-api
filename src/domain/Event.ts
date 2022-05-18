@@ -80,4 +80,8 @@ export class Event extends EventMaster {
       }
     }
   }
+
+  public canTheUserCancel(whoIsCanceling: User): boolean {
+    return whoIsCanceling === this.creator;
+  }
 }
