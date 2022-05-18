@@ -337,6 +337,18 @@ describe("Event Manipulated by Editor", () => {
 
     expect(canCancel).toBe(false);
   });
+
+  it("should editor can exit of the event", () => {
+    let event = eventBuilder(new Date());
+
+    event.exitOfTheEvent(userEditor);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Viewer)
+    );
+    expect(event.getGuests().length).toBe(1);
+  });
 });
 
 describe("Event Manipulated by Viewer or Not Guest", () => {

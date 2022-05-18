@@ -6,6 +6,7 @@ import { GuestData } from "./GuestData";
 import { Permission } from "./Permission";
 import { PermissionDeniedError } from "./PermissionDeniedError";
 import { User } from "./User";
+import { UserIsNotAGuestError } from "./UserIsNotAGuestError";
 
 export class Event extends EventMaster {
   private readonly id: number;
@@ -91,5 +92,10 @@ export class Event extends EventMaster {
 
   public canTheUserCancel(whoIsCanceling: User): boolean {
     return whoIsCanceling === this.creator;
+  }
+
+  public exitOfTheEvent(whoIsExiting: User): void {
+    if (this.findGuestIndex(whoIsExiting) === -1) throw new UserIsNotAGuestError();
+    this.guests = this.guests.filter((g) => g.user !== whoIsExiting);
   }
 }
