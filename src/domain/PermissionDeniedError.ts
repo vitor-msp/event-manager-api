@@ -1,7 +1,5 @@
-class PermissionDeniedError extends Error {
+export class PermissionDeniedError extends Error {
   constructor() {
-    super();
+    super("Permission Denied!");
   }
-
-  message: string = "Permission Denied!";
 }

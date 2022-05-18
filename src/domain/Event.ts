@@ -4,6 +4,7 @@ import { EventMaster } from "./EventMaster";
 import { Guest } from "./Guest";
 import { GuestData } from "./GuestData";
 import { Permission } from "./Permission";
+import { PermissionDeniedError } from "./PermissionDeniedError";
 import { User } from "./User";
 
 export class Event extends EventMaster {
