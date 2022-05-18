@@ -44,10 +44,29 @@ export class Event extends EventMaster {
 
   public setGuests(guestsData: GuestData[], whoIsEditing: User): void {
     if (whoIsEditing === this.creator) {
-      guestsData.forEach(({ user, permission }) =>
-        this.guests.push(new Guest(this, user, permission))
-      );
+      guestsData.forEach((guestData) => {
+        const index: number = this.findGuestIndex(guestData.user);
+        if (index === -1) {
+          this.createGuest(guestData);
+        } else {
+          this.editGuest(index, guestData);
+        }
+      });
     }
+  }
+
+  private findGuestIndex(user: User): number {
+    return this.guests.findIndex((g) => g.user === user);
+  }
+
+  private editGuest(index: number, guestData: GuestData): void {
+    const { user, permission } = guestData;
+    this.guests[index] = new Guest(this, user, permission);
+  }
+
+  private createGuest(guestData: GuestData): void {
+    const { user, permission } = guestData;
+    this.guests.push(new Guest(this, user, permission));
   }
 
   public getGuests(): Guest[] {
@@ -57,8 +76,8 @@ export class Event extends EventMaster {
   public removeGuests(guests: User[], whoIsEditing: User): void {
     if (whoIsEditing === this.creator) {
       for (const guest of guests) {
-        this.guests = this.guests.filter(({user}) => user !== guest)
+        this.guests = this.guests.filter(({ user }) => user !== guest);
       }
     }
-  };
+  }
 }

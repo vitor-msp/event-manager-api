@@ -48,7 +48,7 @@ describe("Create Event", () => {
     expect(creator).toEqual(userCreator);
   });
 
-  it("should event data can be edited by creator", () => {
+  it("should creator can edit event data", () => {
     const eventStart = new Date();
     const event = eventBuilder(eventStart);
 
@@ -82,6 +82,7 @@ describe("Create Event", () => {
     expect(event.getGuests()).toContainEqual(
       new Guest(event, userViewer, Permission.Viewer)
     );
+    expect(event.getGuests().length).toBe(2);
   });
 
   it("should creator can remove guests", () => {
@@ -95,5 +96,30 @@ describe("Create Event", () => {
     event.removeGuests(guests, userCreator);
 
     expect(event.getGuests().length).toBe(0);
+  });
+
+  it("should creator can set guests permissions", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+    event = setGuestsToEvent(event);
+
+    const guests: GuestData[] = [];
+    guests.push({
+      user: userEditor,
+      permission: Permission.Viewer,
+    });
+    guests.push({
+      user: userViewer,
+      permission: Permission.Editor,
+    });
+    event.setGuests(guests, userCreator);
+
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Viewer)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Editor)
+    );
+    expect(event.getGuests().length).toBe(2);
   });
 });
