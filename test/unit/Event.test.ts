@@ -328,4 +328,12 @@ describe("Event Manipulated by Editor", () => {
     );
     expect(event.getGuests().length).toBe(3);
   });
+
+  it("should editor cannot cancel event", () => {
+    let event = eventBuilder(new Date());
+
+    const canCancel = event.canTheUserCancel(userEditor);
+
+    expect(canCancel).toBe(false);
+  });
 });
