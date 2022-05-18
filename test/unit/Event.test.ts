@@ -128,5 +128,33 @@ describe("Event Manipulated by Creator", () => {
     expect(event.getGuests().length).toBe(2);
   });
 
+  it("should creator can set guests permissions and add guests", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+    event = setGuestsToEvent(event);
 
+    const user4 = new User(4);
+    const guests: GuestData[] = [];
+    guests.push({
+      user: userEditor,
+      permission: Permission.Viewer,
+    });
+    guests.push({
+      user: user4,
+      permission: Permission.Editor,
+    });
+    event.setGuests(guests, userCreator);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Viewer)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Viewer)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, user4, Permission.Editor)
+    );
+    expect(event.getGuests().length).toBe(3);
+  });
 });
