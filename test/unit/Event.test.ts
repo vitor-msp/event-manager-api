@@ -383,7 +383,9 @@ describe("Event Manipulated by Editor", () => {
       duration: TenMinutesInSeconds,
       title: "Test Event Edited",
     };
-    expect(() => event.setData(newEventData, userViewer)).toThrow(PermissionDeniedError);
+    expect(() => event.setData(newEventData, userViewer)).toThrow(
+      PermissionDeniedError
+    );
 
     const { id, start, duration, title, creator } = event.getData();
     expect(id).toBe(1);
@@ -400,4 +402,27 @@ describe("Event Manipulated by Editor", () => {
     expect(event.getGuests().length).toBe(2);
   });
 
+  it("should not viewer can add guests", () => {
+    const eventStart = new Date();
+    const event = eventBuilder(eventStart);
+
+    const user4 = new User(4);
+    const guests: GuestData[] = [];
+    guests.push({
+      user: user4,
+      permission: Permission.Editor,
+    });
+    expect(() => event.setGuests(guests, userViewer)).toThrow(
+      PermissionDeniedError
+    );
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Viewer)
+    );
+    expect(event.getGuests().length).toBe(2);
+  });
 });
