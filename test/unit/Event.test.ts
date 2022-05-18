@@ -425,4 +425,25 @@ describe("Event Manipulated by Editor", () => {
     );
     expect(event.getGuests().length).toBe(2);
   });
+
+  it("should not viewer can remove guests", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+
+    const guests: User[] = [];
+    guests.push(userEditor);
+    guests.push(userViewer);
+    expect(() => event.removeGuests(guests, userViewer)).toThrow(
+      PermissionDeniedError
+    );
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Viewer)
+    );
+    expect(event.getGuests().length).toBe(2);
+  });
 });
