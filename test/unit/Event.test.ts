@@ -7,6 +7,7 @@ import { GuestData } from "../../src/domain/GuestData";
 import { Permission } from "../../src/domain/Permission";
 import { PermissionDeniedError } from "../../src/domain/PermissionDeniedError";
 import { User } from "../../src/domain/User";
+import { UserIsNotAGuestError } from "../../src/domain/UserIsNotAGuestError";
 
 describe("Event Manipulated by Creator", () => {
   const userCreator = new User(1);
@@ -562,5 +563,22 @@ describe("Event Manipulated by Viewer or Not Guest", () => {
       new Guest(event, userEditor, Permission.Editor)
     );
     expect(event.getGuests().length).toBe(1);
+  });
+
+  it("should not a not guest can exit of the event", () => {
+    let event = eventBuilder(new Date());
+
+    expect(() => event.exitOfTheEvent(new User(5))).toThrow(
+      UserIsNotAGuestError
+    );
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Viewer)
+    );
+    expect(event.getGuests().length).toBe(2);
   });
 });
