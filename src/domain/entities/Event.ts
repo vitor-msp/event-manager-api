@@ -1,4 +1,5 @@
 import { CreatorCannotExitError } from "../errors/CreatorCannotExitError";
+import { InvalidFieldError } from "../errors/InvalidFieldError";
 import { PermissionDeniedError } from "../errors/PermissionDeniedError";
 import { UserIsNotAGuestError } from "../errors/UserIsNotAGuestError";
 import { CreateEventData } from "../types/CreateEventData";
@@ -19,13 +20,15 @@ export class Event extends EventMaster {
 
   constructor(data: CreateEventData, whoIsCreating: User) {
     super();
-    this.id = super.getNexId();
+    const duration = data.duration ?? 0;
+    if (duration < 0) throw new InvalidFieldError("duration");
+    this.duration = duration;
     const { start, title } = data;
     this.start = start;
-    this.duration = data.duration ?? 0;
     this.title = title;
     this.creator = whoIsCreating;
     this.guests = [];
+    this.id = super.getNexId();
   }
 
   public getData() {

@@ -8,6 +8,7 @@ import { Permission } from "../../src/domain/types/Permission";
 import { PermissionDeniedError } from "../../src/domain/errors/PermissionDeniedError";
 import { User } from "../../src/domain/entities/User";
 import { UserIsNotAGuestError } from "../../src/domain/errors/UserIsNotAGuestError";
+import { InvalidFieldError } from "../../src/domain/errors/InvalidFieldError";
 
 describe("Event Manipulated by Creator", () => {
   const userCreator = new User(1);
@@ -67,6 +68,17 @@ describe("Event Manipulated by Creator", () => {
     expect(title).toBe("Test Event");
     expect(creator).toEqual(userCreator);
     expect(event.getGuests().length).toBe(0);
+  });
+
+  it("should not create event with a negative duration", () => {
+    const eventStart = new Date();
+    const eventData: CreateEventData = {
+      start: eventStart,
+      duration: -1,
+      title: "Test Event",
+    };
+
+    expect(()=>new Event(eventData, userCreator)).toThrow(InvalidFieldError);
   });
 
   it("should creator can edit event data", () => {
