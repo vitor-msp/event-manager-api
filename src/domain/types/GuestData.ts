@@ -1,5 +1,5 @@
+import { User } from "../entities/User";
 import { Permission } from "./Permission";
-import { User } from "./User";
 
 export type GuestData = {
   user: User;

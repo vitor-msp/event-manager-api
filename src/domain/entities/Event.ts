@@ -1,13 +1,13 @@
-import { CreateEventData } from "./CreateEventData";
-import { CreatorCannotExitError } from "./CreatorCannotExitError";
-import { EditEventData } from "./EditEventData";
+import { CreatorCannotExitError } from "../errors/CreatorCannotExitError";
+import { PermissionDeniedError } from "../errors/PermissionDeniedError";
+import { UserIsNotAGuestError } from "../errors/UserIsNotAGuestError";
+import { CreateEventData } from "../types/CreateEventData";
+import { EditEventData } from "../types/EditEventData";
+import { GuestData } from "../types/GuestData";
+import { Permission } from "../types/Permission";
 import { EventMaster } from "./EventMaster";
 import { Guest } from "./Guest";
-import { GuestData } from "./GuestData";
-import { Permission } from "./Permission";
-import { PermissionDeniedError } from "./PermissionDeniedError";
 import { User } from "./User";
-import { UserIsNotAGuestError } from "./UserIsNotAGuestError";
 
 export class Event extends EventMaster {
   private readonly id: number;
@@ -38,13 +38,12 @@ export class Event extends EventMaster {
     };
   }
 
-  private canTheUserEdit(user: User): boolean {
-    if (user === this.creator) return true;
-    const editor = this.guests.find(
-      (g) => g.user === user && g.getPermission() === Permission.Editor
-    );
-    if (editor) return true;
-    return false;
+  public getGuests(): Guest[] {
+    return this.guests;
+  }
+
+  public canTheUserCancel(whoIsCanceling: User): boolean {
+    return whoIsCanceling === this.creator;
   }
 
   public setData(data: EditEventData, whoIsEditing: User): void {
@@ -66,6 +65,28 @@ export class Event extends EventMaster {
     });
   }
 
+  public removeGuests(guests: User[], whoIsEditing: User): void {
+    if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
+    for (const guest of guests) {
+      this.guests = this.guests.filter(({ user }) => user !== guest);
+    }
+  }
+
+  public exitOfTheEvent(whoIsExiting: User): void {
+    if (this.creator === whoIsExiting) throw new CreatorCannotExitError();
+    if (this.findGuestIndex(whoIsExiting) === -1)
+      throw new UserIsNotAGuestError();
+    this.guests = this.guests.filter((g) => g.user !== whoIsExiting);
+  }
+
+  private canTheUserEdit(user: User): boolean {
+    if (user === this.creator) return true;
+    const index = this.findGuestIndex(user);
+    if (this.guests.at(index)?.permission === Permission.Editor)
+      return true;
+    return false;
+  }
+
   private findGuestIndex(user: User): number {
     return this.guests.findIndex((g) => g.user === user);
   }
@@ -78,26 +99,5 @@ export class Event extends EventMaster {
   private createGuest(guestData: GuestData): void {
     const { user, permission } = guestData;
     this.guests.push(new Guest(this, user, permission));
-  }
-
-  public getGuests(): Guest[] {
-    return this.guests;
-  }
-
-  public removeGuests(guests: User[], whoIsEditing: User): void {
-    if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
-    for (const guest of guests) {
-      this.guests = this.guests.filter(({ user }) => user !== guest);
-    }
-  }
-
-  public canTheUserCancel(whoIsCanceling: User): boolean {
-    return whoIsCanceling === this.creator;
-  }
-
-  public exitOfTheEvent(whoIsExiting: User): void {
-    if (this.creator === whoIsExiting) throw new CreatorCannotExitError();
-    if (this.findGuestIndex(whoIsExiting) === -1) throw new UserIsNotAGuestError();
-    this.guests = this.guests.filter((g) => g.user !== whoIsExiting);
   }
 }

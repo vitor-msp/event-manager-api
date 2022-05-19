@@ -1,13 +1,13 @@
-import { CreateEventData } from "../../src/domain/CreateEventData";
-import { CreatorCannotExitError } from "../../src/domain/CreatorCannotExitError";
-import { EditEventData } from "../../src/domain/EditEventData";
-import { Event } from "../../src/domain/Event";
-import { Guest } from "../../src/domain/Guest";
-import { GuestData } from "../../src/domain/GuestData";
-import { Permission } from "../../src/domain/Permission";
-import { PermissionDeniedError } from "../../src/domain/PermissionDeniedError";
-import { User } from "../../src/domain/User";
-import { UserIsNotAGuestError } from "../../src/domain/UserIsNotAGuestError";
+import { CreateEventData } from "../../src/domain/types/CreateEventData";
+import { CreatorCannotExitError } from "../../src/domain/errors/CreatorCannotExitError";
+import { EditEventData } from "../../src/domain/types/EditEventData";
+import { Event } from "../../src/domain/entities/Event";
+import { Guest } from "../../src/domain/entities/Guest";
+import { GuestData } from "../../src/domain/types/GuestData";
+import { Permission } from "../../src/domain/types/Permission";
+import { PermissionDeniedError } from "../../src/domain/errors/PermissionDeniedError";
+import { User } from "../../src/domain/entities/User";
+import { UserIsNotAGuestError } from "../../src/domain/errors/UserIsNotAGuestError";
 
 describe("Event Manipulated by Creator", () => {
   const userCreator = new User(1);
