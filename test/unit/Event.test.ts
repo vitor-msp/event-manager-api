@@ -39,7 +39,7 @@ describe("Event Manipulated by Creator", () => {
     return event;
   };
 
-  it("should create event", () => {
+  it("should create event with a duration", () => {
     const eventStart = new Date();
     const event = eventBuilder(eventStart);
 
@@ -47,6 +47,23 @@ describe("Event Manipulated by Creator", () => {
     expect(id).toBe(1);
     expect(start).toBe(eventStart);
     expect(duration).toBe(60 * 60);
+    expect(title).toBe("Test Event");
+    expect(creator).toEqual(userCreator);
+    expect(event.getGuests().length).toBe(0);
+  });
+
+  it("should create event without a duration", () => {
+    const eventStart = new Date();
+    const eventData: CreateEventData = {
+      start: eventStart,
+      title: "Test Event",
+    };
+    const event = new Event(eventData, userCreator);
+
+    const { id, start, duration, title, creator } = event.getData();
+    expect(id).toBe(1);
+    expect(start).toBe(eventStart);
+    expect(duration).toBe(0);
     expect(title).toBe("Test Event");
     expect(creator).toEqual(userCreator);
     expect(event.getGuests().length).toBe(0);
