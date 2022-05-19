@@ -172,7 +172,9 @@ describe("Event Manipulated by Creator", () => {
   it("should not creator can exit of the event", () => {
     let event = eventBuilder(new Date());
 
-    expect(() => event.exitOfTheEvent(userCreator)).toThrow(CreatorCannotExitError);
+    expect(() => event.exitOfTheEvent(userCreator)).toThrow(
+      CreatorCannotExitError
+    );
 
     expect(event.getData().id).toBe(1);
     expect(event.getData().creator).toEqual(userCreator);
@@ -548,5 +550,17 @@ describe("Event Manipulated by Viewer or Not Guest", () => {
 
     expect(canViewerCancel).toBe(false);
     expect(canNotGuestCancel).toBe(false);
+  });
+
+  it("should viewer can exit of the event", () => {
+    let event = eventBuilder(new Date());
+
+    event.exitOfTheEvent(userViewer);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+    expect(event.getGuests().length).toBe(1);
   });
 });
