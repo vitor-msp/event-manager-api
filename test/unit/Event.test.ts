@@ -78,7 +78,7 @@ describe("Event Manipulated by Creator", () => {
       title: "Test Event",
     };
 
-    expect(()=>new Event(eventData, userCreator)).toThrow(InvalidFieldError);
+    expect(() => new Event(eventData, userCreator)).toThrow(InvalidFieldError);
   });
 
   it("should creator can edit event data", () => {

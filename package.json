@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon src/main/server.ts",
     "test": "jest --detectOpenHandles"
   },
   "repository": {
@@ -24,6 +25,8 @@
     "@types/mongoose": "^5.11.97",
     "@types/supertest": "^2.0.12",
     "jest": "^28.1.0",
+    "nodemon": "^2.0.16",
+    "sucrase": "^3.21.0",
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.2",
     "ts-node": "^10.7.0",
