@@ -26,7 +26,7 @@ describe("Create Event Validator", () => {
 
   it("should return invalid request error title not string", async () => {
     const reqBody = {
-      title: 1
+      title: 1,
     };
 
     const res: request.Response = await request(app)
@@ -35,6 +35,22 @@ describe("Create Event Validator", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Invalid Title",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error title not string", async () => {
+    const reqBody = {
+      title: "Event Test",
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Start",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
