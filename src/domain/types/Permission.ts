@@ -1,4 +1,4 @@
 export enum Permission {
-  Editor,
-  Viewer,
+  Editor = "Editor",
+  Viewer = "Viewer",
 }

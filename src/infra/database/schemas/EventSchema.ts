@@ -2,21 +2,10 @@ import { Schema, Model, model } from "mongoose";
 import { IEvent } from "../../../app/interfaces/IEvent";
 import { GuestSchema } from "./GuestSchema";
 
-// export interface IEventModel extends Document {
-//   id: number;
-//   start: Date;
-//   duration: number;
-//   title: string;
-//   creator: number;
-//   guests: IGuestModel[];
-// }
+export interface IEventModel extends IEvent, Document {
+}
 
-// export interface IGuestModel {
-//   user: number;
-//   permission: Permission;
-// }
-
-export const EventSchema = new Schema<IEvent>(
+export const EventSchema = new Schema<IEventModel>(
   {
     id: {
       type: Number,
@@ -48,4 +37,4 @@ export const EventSchema = new Schema<IEvent>(
   { timestamps: true }
 );
 
-export const EventModel: Model<IEvent> = model<IEvent>("Event", EventSchema);
+export const EventModel: Model<IEventModel> = model<IEventModel>("Event", EventSchema);

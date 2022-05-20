@@ -1,7 +1,9 @@
 import { Schema } from "mongoose";
 import { IGuest } from "../../../app/interfaces/IGuest";
 
-export const GuestSchema = new Schema<IGuest>(
+export interface IGuestModel extends IGuest, Document {}
+
+export const GuestSchema = new Schema<IGuestModel>(
   {
     user: {
       type: Number,
