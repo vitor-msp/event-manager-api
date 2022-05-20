@@ -24,6 +24,22 @@ describe("Create Event Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return invalid request error title not string", async () => {
+    const reqBody = {
+      title: 1
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Title",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   afterAll(async () => {
     mongoose.disconnect();
     app = null;
