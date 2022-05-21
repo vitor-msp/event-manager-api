@@ -179,6 +179,20 @@ describe("Edit Event Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return invalid request error invalid guest to remove", async () => {
+    const reqBody = { id: 1, guestsToRemove: [1,2,"a",4] };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest To Remove",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   afterAll(async () => {
     mongoose.disconnect();
     app = null;
