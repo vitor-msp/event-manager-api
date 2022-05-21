@@ -7,4 +7,5 @@ export interface IEvent {
   title: string;
   creator: number;
   guests: IGuest[];
+  guestsToRemove?: number[];
 };
