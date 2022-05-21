@@ -187,6 +187,26 @@ describe("Create Event Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return invalid request error invalid user id", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{ user: 1, permission: "Editor" }],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({userId: "a"})
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid User Id",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   afterAll(async () => {
     mongoose.disconnect();
     app = null;

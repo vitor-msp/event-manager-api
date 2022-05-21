@@ -31,6 +31,6 @@ const validateGuest = (guest: IGuest): void => {
   throw new InvalidRequestError("Invalid Guest");
 };
 
-export const validateUserId = (id: number): void => {
-  if (typeof id !== "number") throw new InvalidRequestError("Invalid User id");
+export const validateUserId = (id: any): void => {
+  if (isNaN(id)) throw new InvalidRequestError("Invalid User Id");
 };
