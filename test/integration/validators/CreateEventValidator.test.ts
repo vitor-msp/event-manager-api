@@ -73,7 +73,23 @@ describe("Create Event Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return invalid request error invalid duration", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: "a"
+    };
 
+    const res: request.Response = await request(app)
+      .post("/event")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Duration",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
 
   afterAll(async () => {
     mongoose.disconnect();
