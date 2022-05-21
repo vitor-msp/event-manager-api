@@ -1,7 +1,7 @@
 export default {
   bail: 1,
   clearMocks: true,
-  collectCoverage: true,
+  // collectCoverage: true,
   collectCoverageFrom: [
     "src/**",
     "!src/**/I*.ts",
@@ -13,6 +13,7 @@ export default {
   coverageProvider: "v8",
   preset: "ts-jest",
   testMatch: [
-    "**/test/**/*.test.ts?(x)",
+    "**/EditEventValidator.test.ts",
+    // "**/test/**/*.test.ts?(x)",
   ],
 };

@@ -2,7 +2,6 @@ import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
 import { App } from "../../../src/main/app";
-import { IEvent } from "../../../src/app/interfaces/IEvent";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 
 describe("Create Event Use Case", () => {

@@ -28,7 +28,7 @@ export class Event extends EventMaster {
     this.title = title;
     this.creator = whoIsCreating;
     this.guests = [];
-    this.id = super.getNexId();
+    this.id = data.id ?? super.getNexId();
   }
 
   public getData() {

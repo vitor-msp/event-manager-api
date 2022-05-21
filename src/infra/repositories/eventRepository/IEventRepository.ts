@@ -3,4 +3,8 @@ import { CreateEventOutputDto } from "../../../app/useCases/CreateEvent/CreateEv
 
 export interface IEventRepository {
   insert(event: IEvent): Promise<CreateEventOutputDto>;
+
+  select(eventId: number): Promise<IEvent | null>;
+
+  update(event: IEvent): Promise<void>;
 }
