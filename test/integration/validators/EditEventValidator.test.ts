@@ -44,6 +44,20 @@ describe("Edit Event Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return invalid request error Missing Fields To Edit", async () => {
+    const reqBody = { id: 1 };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Fields To Edit",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   afterAll(async () => {
     mongoose.disconnect();
     app = null;
