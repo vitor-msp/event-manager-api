@@ -25,7 +25,7 @@ export class EditEventUseCase {
 
     if (eventData.guests?.length > 0)
       EventBuilder.setGuestsToEvent(eventData.guests, event, currentUser);
-
+    
     await this.eventRepository.update(EventExtractor.getDataFromEvent(event));
   }
 }
