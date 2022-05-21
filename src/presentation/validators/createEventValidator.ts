@@ -16,6 +16,7 @@ export const createEventValidator = (req: Request): void => {
   validateTitle(input.title);
 
   if (!input.start) throw new InvalidRequestError("Missing Start");
+  // @ts-ignore
   validateStart(input.start);
 
   if (input.duration) validateDuration(input.duration);

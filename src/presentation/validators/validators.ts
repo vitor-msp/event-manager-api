@@ -6,8 +6,8 @@ export const validateTitle = (title: string): void => {
     throw new InvalidRequestError("Invalid Title");
 };
 
-export const validateStart = (start: Date): void => {
-  if (!(start instanceof Date)) throw new InvalidRequestError("Invalid Start");
+export const validateStart = (start: string): void => {
+  if (new Date(start).toISOString() !== start) throw new InvalidRequestError("Invalid Start");
 };
 
 export const validateDuration = (duration: number): void => {

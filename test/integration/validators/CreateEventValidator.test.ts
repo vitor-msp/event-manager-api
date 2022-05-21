@@ -59,7 +59,7 @@ describe("Create Event Validator", () => {
   it("should return invalid request error invalid start", async () => {
     const reqBody = {
       title: "Event Test",
-      start: "1"
+      start: "1",
     };
 
     const res: request.Response = await request(app)
@@ -72,6 +72,8 @@ describe("Create Event Validator", () => {
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
   });
+
+
 
   afterAll(async () => {
     mongoose.disconnect();
