@@ -23,6 +23,6 @@ export const createEventValidator = (req: Request): void => {
 
   if (input.guests?.length > 0) validateGuests(input.guests);
 
-  if (!req.params.userId) throw new InvalidRequestError("Missing user")
+  if (!req.params.userId) throw new InvalidRequestError("Missing User Id")
   validateUserId(+req.params.userId);
 };
