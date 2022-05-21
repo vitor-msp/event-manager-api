@@ -12,6 +12,9 @@ import {
 export const createEventValidator = (req: Request): void => {
   const input: IEvent = req.body;
 
+  if (!req.query.userId) throw new InvalidRequestError("Missing User Id")
+  validateUserId(req.query.userId);
+
   if (!input.title) throw new InvalidRequestError("Missing Title");
   validateTitle(input.title);
 
@@ -22,7 +25,4 @@ export const createEventValidator = (req: Request): void => {
   if (input.duration) validateDuration(input.duration);
 
   if (input.guests?.length > 0) validateGuests(input.guests);
-
-  if (!req.query.userId) throw new InvalidRequestError("Missing User Id")
-  validateUserId(req.query.userId);
 };

@@ -10,163 +10,6 @@ describe("Create Event Validator", () => {
     app = new App().express;
   });
 
-  it("should return invalid request error missing title", async () => {
-    const reqBody = {};
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Missing Title",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid title", async () => {
-    const reqBody = {
-      title: 1,
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Title",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error missing start", async () => {
-    const reqBody = {
-      title: "Event Test",
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Missing Start",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid start", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: "1",
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Start",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid duration", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: "a",
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Duration",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid guest (missing user)", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: 1,
-      guests: [{}],
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Guest",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid guest (invalid user)", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: 1,
-      guests: [{ user: "a" }],
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Guest",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid guest (missing permission)", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: 1,
-      guests: [{ user: 1 }],
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Guest",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error invalid guest (invalid permission)", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: 1,
-      guests: [{ user: 1, permission: "teste" }],
-    };
-
-    const res: request.Response = await request(app)
-      .post("/event")
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Invalid Guest",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
   it("should return invalid request error missing user id", async () => {
     const reqBody = {
       title: "Event Test",
@@ -187,16 +30,11 @@ describe("Create Event Validator", () => {
   });
 
   it("should return invalid request error invalid user id", async () => {
-    const reqBody = {
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: 1,
-      guests: [{ user: 1, permission: "Editor" }],
-    };
+    const reqBody = {}
 
     const res: request.Response = await request(app)
       .post("/event")
-      .query({userId: "a"})
+      .query({ userId: "a" })
       .send(reqBody);
 
     const errorResponse: ErrorResponse = {
@@ -205,6 +43,173 @@ describe("Create Event Validator", () => {
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
   });
+
+  it("should return invalid request error missing title", async () => {
+    const reqBody = {};
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Title",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid title", async () => {
+    const reqBody = {
+      title: 1,
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Title",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error missing start", async () => {
+    const reqBody = {
+      title: "Event Test",
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Start",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid start", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: "1",
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Start",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid duration", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: "a",
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Duration",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (missing user)", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{}],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (invalid user)", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{ user: "a" }],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (missing permission)", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{ user: 1 }],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (invalid permission)", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{ user: 1, permission: "teste" }],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
 
   afterAll(async () => {
     mongoose.disconnect();
