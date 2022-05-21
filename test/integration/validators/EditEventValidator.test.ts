@@ -3,21 +3,23 @@ import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { App } from "../../../src/main/app";
-import { IEvent } from "../../../src/app/interfaces/IEvent";
 
 describe("Edit Event Validator", () => {
   let app: express.Application | null;
+  let reqBody: any; 
   beforeAll(async () => {
     app = new App().express;
   });
-  const reqBody = {
-    id: 1,
-    title: "Event Test",
-    start: new Date().toISOString(),
-    duration: 1,
-    guests: [{ user: 1, permission: "Editor" }],
-    guestsToRemove: [1, 2],
-  };
+  beforeEach(() => {
+    reqBody = {
+      id: 1,
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{ user: 1, permission: "Editor" }],
+      guestsToRemove: [1, 2],
+    };
+  })
 
   it("should return invalid request error missing user id", async () => {
     const res: request.Response = await request(app)
@@ -67,6 +69,20 @@ describe("Edit Event Validator", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Missing Event Id",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid event id", async () => {
+    reqBody.id = "a";
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Event Id",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
