@@ -3,7 +3,6 @@ import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { App } from "../../../src/main/app";
-import { IEvent } from "../../../src/app/interfaces/IEvent";
 
 describe("Create Event Validator", () => {
   let app: express.Application | null;
