@@ -46,7 +46,7 @@ export class Event extends EventMaster {
   }
 
   public canTheUserCancel(whoIsCanceling: User): boolean {
-    return whoIsCanceling === this.creator;
+    return whoIsCanceling.id === this.creator.id;
   }
 
   public setData(data: EditEventData, whoIsEditing: User): void {
@@ -59,7 +59,7 @@ export class Event extends EventMaster {
   public setGuests(guestsData: GuestData[], whoIsEditing: User): void {
     if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
     guestsData.forEach((guestData) => {
-      if (guestData.user === this.creator) return;
+      if (guestData.user.id === this.creator.id) return;
       const index: number = this.findGuestIndex(guestData.user);
       if (index === -1) {
         this.createGuest(guestData);
@@ -72,19 +72,19 @@ export class Event extends EventMaster {
   public removeGuests(guests: User[], whoIsEditing: User): void {
     if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
     for (const guest of guests) {
-      this.guests = this.guests.filter(({ user }) => user !== guest);
+      this.guests = this.guests.filter(({ user }) => user.id !== guest.id);
     }
   }
 
   public exitOfTheEvent(whoIsExiting: User): void {
-    if (this.creator === whoIsExiting) throw new CreatorCannotExitError();
+    if (this.creator.id === whoIsExiting.id) throw new CreatorCannotExitError();
     if (this.findGuestIndex(whoIsExiting) === -1)
       throw new UserIsNotAGuestError();
-    this.guests = this.guests.filter((g) => g.user !== whoIsExiting);
+    this.guests = this.guests.filter((g) => g.user.id !== whoIsExiting.id);
   }
 
   private canTheUserEdit(user: User): boolean {
-    if (user === this.creator) return true;
+    if (user.id === this.creator.id) return true;
     const index = this.findGuestIndex(user);
     if (this.guests.at(index)?.permission === Permission.Editor)
       return true;
@@ -92,7 +92,7 @@ export class Event extends EventMaster {
   }
 
   private findGuestIndex(user: User): number {
-    return this.guests.findIndex((g) => g.user === user);
+    return this.guests.findIndex((g) => g.user.id === user.id);
   }
 
   private editGuest(index: number, guestData: GuestData): void {
