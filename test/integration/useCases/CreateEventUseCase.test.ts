@@ -31,11 +31,10 @@ describe("Create Event Use Case", () => {
     expect(res.body).toHaveProperty("eventId");
   });
 
-  it("should receive created for a valid event without guests", async () => {
+  it("should receive created for a valid event without guests and duration", async () => {
     const reqBody = {
       title: "Event Test",
       start: new Date().toISOString(),
-      duration: 60 * 60,
     };
 
     const res: request.Response = await request(app)
@@ -48,7 +47,7 @@ describe("Create Event Use Case", () => {
   });
 
   afterAll(async () => {
-    // await EventModel.deleteMany();
+    await EventModel.deleteMany();
     mongoose.disconnect();
     app = null;
   });
