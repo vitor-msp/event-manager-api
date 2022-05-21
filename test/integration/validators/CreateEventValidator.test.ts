@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { App } from "../../../src/main/app";
+import { IEvent } from "../../../src/app/interfaces/IEvent";
 
 describe("Create Event Validator", () => {
   let app: express.Application | null;
@@ -77,7 +78,7 @@ describe("Create Event Validator", () => {
     const reqBody = {
       title: "Event Test",
       start: new Date().toISOString(),
-      duration: "a"
+      duration: "a",
     };
 
     const res: request.Response = await request(app)
@@ -86,6 +87,25 @@ describe("Create Event Validator", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Invalid Duration",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (missing user)", async () => {
+    const reqBody = {
+      title: "Event Test",
+      start: new Date().toISOString(),
+      duration: 1,
+      guests: [{}],
+    };
+
+    const res: request.Response = await request(app)
+      .post("/event")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
