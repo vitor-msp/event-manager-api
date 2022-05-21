@@ -6,22 +6,13 @@ import { App } from "../../../src/main/app";
 
 describe("Edit Event Validator", () => {
   let app: express.Application | null;
-  let reqBody: any; 
+  let reqBody: any;
   beforeAll(async () => {
     app = new App().express;
   });
-  beforeEach(() => {
-    reqBody = {
-      id: 1,
-      title: "Event Test",
-      start: new Date().toISOString(),
-      duration: 1,
-      guests: [{ user: 1, permission: "Editor" }],
-      guestsToRemove: [1, 2],
-    };
-  })
 
   it("should return invalid request error missing user id", async () => {
+    const reqBody = {};
     const res: request.Response = await request(app)
       .put("/event")
       .send(reqBody);
@@ -34,6 +25,8 @@ describe("Edit Event Validator", () => {
   });
 
   it("should return invalid request error invalid user id", async () => {
+    const reqBody = {};
+
     const res: request.Response = await request(app)
       .put("/event")
       .query({ userId: "a" })
@@ -41,20 +34,6 @@ describe("Edit Event Validator", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Invalid User Id",
-    };
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual(errorResponse);
-  });
-
-  it("should return invalid request error Missing Fields To Edit", async () => {
-    const reqBody = { id: 1 };
-    const res: request.Response = await request(app)
-      .put("/event")
-      .query({ userId: "1" })
-      .send(reqBody);
-
-    const errorResponse: ErrorResponse = {
-      message: "Missing Fields To Edit",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
@@ -75,7 +54,7 @@ describe("Edit Event Validator", () => {
   });
 
   it("should return invalid request error invalid event id", async () => {
-    reqBody.id = "a";
+    const reqBody = { id: "a" };
     const res: request.Response = await request(app)
       .put("/event")
       .query({ userId: "1" })
@@ -83,6 +62,118 @@ describe("Edit Event Validator", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Invalid Event Id",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error Missing Fields To Edit", async () => {
+    const reqBody = { id: 1 };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Fields To Edit",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid title", async () => {
+    const reqBody = { id: 1, title: 1 };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Title",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid start", async () => {
+    const reqBody = { id: 1, start: "1" };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Start",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid duration", async () => {
+    const reqBody = { id: 1, duration: "a" };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Duration",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (missing user)", async () => {
+    const reqBody = { id: 1, guests: [{}] };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (invalid user)", async () => {
+    const reqBody = { id: 1, guests: [{ user: "a" }] };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (missing permission)", async () => {
+    const reqBody = { id: 1, guests: [{ user: 1 }] };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return invalid request error invalid guest (invalid permission)", async () => {
+    const reqBody = { id: 1, guests: [{ user: 1, permission: "teste" }] };
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Guest",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);

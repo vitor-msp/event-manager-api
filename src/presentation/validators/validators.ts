@@ -22,25 +22,26 @@ export const validateDuration = (duration: number): void => {
 export const validateGuests = (guests: IGuest[]): void => {
   guests.forEach((g) => validateGuest(g));
 
-  const validateGuest = (guest: IGuest): void => {
-    if (
-      guest.user &&
-      guest.permission &&
-      typeof guest.user === "number" &&
-      (guest.permission === "Editor" || guest.permission === "Viewer")
-    ) {
-      return;
-    }
-    throw new InvalidRequestError("Invalid Guest");
-  };
+};
+
+const validateGuest = (guest: IGuest): void => {
+  if (
+    guest.user &&
+    guest.permission &&
+    typeof guest.user === "number" &&
+    (guest.permission === "Editor" || guest.permission === "Viewer")
+  ) {
+    return;
+  }
+  throw new InvalidRequestError("Invalid Guest");
 };
 
 export const validateGuestsToRemove = (guestsToRemove: any[]): void => {
   guestsToRemove.forEach((g) => validateGuestToRemove(g));
+};
 
-  const validateGuestToRemove = (guest: any): void => {
-    if (isNaN(guest)) throw new InvalidRequestError("Invalid Guest To Remove");
-  };
+const validateGuestToRemove = (guest: any): void => {
+  if (isNaN(guest)) throw new InvalidRequestError("Invalid Guest To Remove");
 };
 
 export const validateUserId = (id: any): void => {
