@@ -120,6 +120,28 @@ describe("Event Manipulated by Creator", () => {
     expect(event.getGuests().length).toBe(2);
   });
 
+  it("should not add creator as a guest", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+
+    const guests: GuestData[] = [];
+    guests.push({
+      user: userCreator,
+      permission: Permission.Viewer,
+    });
+    guests.push({
+      user: userEditor,
+      permission: Permission.Editor,
+    });
+    event.setGuests(guests, userCreator);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+    expect(event.getGuests().length).toBe(1);
+  });
+
   it("should creator can remove guests", () => {
     const eventStart = new Date();
     let event = eventBuilder(eventStart);

@@ -59,6 +59,7 @@ export class Event extends EventMaster {
   public setGuests(guestsData: GuestData[], whoIsEditing: User): void {
     if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
     guestsData.forEach((guestData) => {
+      if (guestData.user === this.creator) return;
       const index: number = this.findGuestIndex(guestData.user);
       if (index === -1) {
         this.createGuest(guestData);
