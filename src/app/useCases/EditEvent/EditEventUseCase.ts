@@ -1,9 +1,11 @@
 import { IEvent } from "../../interfaces/IEvent";
 import { IEventRepository } from "../../../infra/repositories/eventRepository/IEventRepository";
-import { EventBuilder } from "../../conversors/EventBuilder";
-import { EventExtractor } from "../../conversors/EventExtractor";
+import { GetDataFromEvent } from "../../conversors/GetDataFromEvent";
 import { EventNotFoundError } from "../../errors/EventNotFoundError";
 import { User } from "../../../domain/entities/User";
+import { BuildExistingEvent } from "../../conversors/BuildExistingEvent";
+import { SetGuestsToEvent } from "../../conversors/SetGuestsToEvent";
+import { SetDataToEvent } from "../../conversors/SetDataToEvent";
 
 export class EditEventUseCase {
   constructor(private readonly eventRepository: IEventRepository) {}
@@ -18,14 +20,14 @@ export class EditEventUseCase {
 
     if (!eventEnt) throw new EventNotFoundError();
 
-    const event = EventBuilder.buildExistingEvent(eventEnt);
+    const event = BuildExistingEvent.execute(eventEnt);
 
     const currentUser = new User(currentUserId);
-    EventBuilder.setDataToEvent(eventData, event, currentUser);
+    SetDataToEvent.execute(eventData, event, currentUser);
 
     if (eventData.guests?.length > 0)
-      EventBuilder.setGuestsToEvent(eventData.guests, event, currentUser);
-    
-    await this.eventRepository.update(EventExtractor.getDataFromEvent(event));
+      SetGuestsToEvent.execute(eventData.guests, event, currentUser);
+
+    await this.eventRepository.update(GetDataFromEvent.execute(event));
   }
 }

@@ -2,8 +2,8 @@ import { Event } from "../../domain/entities/Event";
 import { IEvent } from "../interfaces/IEvent";
 import { IGuest } from "../interfaces/IGuest";
 
-export abstract class EventExtractor {
-  public static getDataFromEvent(event: Event): IEvent {
+export abstract class GetDataFromEvent {
+  public static execute(event: Event): IEvent {
     const { id, start, duration, title, creator } = event.getData();
 
     const guests: IGuest[] = [];
