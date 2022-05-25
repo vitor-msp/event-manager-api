@@ -1,6 +1,10 @@
 import { IGuest } from "../../app/interfaces/IGuest";
 import { InvalidRequestError } from "../errors/InvalidRequestError";
 
+export const validateUserId = (id: any): void => {
+  if (isNaN(id)) throw new InvalidRequestError("Invalid User Id");
+};
+
 export const validateEventId = (id: any): void => {
   if (isNaN(id)) throw new InvalidRequestError("Invalid Event Id");
 };
@@ -15,8 +19,7 @@ export const validateStart = (start: string): void => {
 };
 
 export const validateDuration = (duration: number): void => {
-  if (typeof duration !== "number")
-    throw new InvalidRequestError("Invalid Duration");
+  if (isNaN(duration)) throw new InvalidRequestError("Invalid Duration");
 };
 
 export const validateGuests = (guests: IGuest[]): void => {
@@ -28,7 +31,7 @@ const validateGuest = (guest: IGuest): void => {
   if (
     guest.user &&
     guest.permission &&
-    typeof guest.user === "number" &&
+    !isNaN(guest.user) &&
     (guest.permission === "Editor" || guest.permission === "Viewer")
   ) {
     return;
@@ -42,8 +45,4 @@ export const validateGuestsToRemove = (guestsToRemove: any[]): void => {
 
 const validateGuestToRemove = (guest: any): void => {
   if (isNaN(guest)) throw new InvalidRequestError("Invalid Guest To Remove");
-};
-
-export const validateUserId = (id: any): void => {
-  if (isNaN(id)) throw new InvalidRequestError("Invalid User Id");
 };

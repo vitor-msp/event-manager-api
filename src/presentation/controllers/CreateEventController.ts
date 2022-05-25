@@ -16,8 +16,8 @@ export class CreateEventController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       createEventValidator(req);
-      const input: IEvent = req.body;
       const userId: number = +req.query.userId!;
+      const input: IEvent = req.body;
 
       const output: CreateEventOutputDto =
         await this.createEventUseCase.execute(input, userId);

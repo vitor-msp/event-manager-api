@@ -210,7 +210,6 @@ describe("Create Event Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
-
   afterAll(async () => {
     mongoose.disconnect();
     app = null;

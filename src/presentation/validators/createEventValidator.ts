@@ -10,10 +10,10 @@ import {
 } from "./validators";
 
 export const createEventValidator = (req: Request): void => {
-  const input: IEvent = req.body;
-
   if (!req.query.userId) throw new InvalidRequestError("Missing User Id")
   validateUserId(req.query.userId);
+  
+  const input: IEvent = req.body;
 
   if (!input.title) throw new InvalidRequestError("Missing Title");
   validateTitle(input.title);
