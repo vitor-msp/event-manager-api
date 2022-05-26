@@ -4,14 +4,15 @@ import mongoose from "mongoose";
 import { App } from "../../../src/main/app";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
+import { IEvent } from "../../../src/app/interfaces/IEvent";
+
+let app: express.Application | null;
+beforeAll(async () => {
+  app = new App().express;
+  await EventModel.deleteMany();
+});
 
 describe("Case Event Not Found", () => {
-  let app: express.Application | null;
-  beforeAll(async () => {
-    app = new App().express;
-    await EventModel.deleteMany();
-  });
-
   it("should receive not found for an inexisting event", async () => {
     const reqBody = {
       id: 1,
@@ -30,9 +31,15 @@ describe("Case Event Not Found", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
-  afterAll(async () => {
+  (async () => {
     await EventModel.deleteMany();
-    mongoose.disconnect();
-    app = null;
-  });
+  })();
+});
+
+
+
+afterAll(async () => {
+  await EventModel.deleteMany();
+  mongoose.disconnect();
+  app = null;
 });
