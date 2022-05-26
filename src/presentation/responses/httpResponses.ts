@@ -8,8 +8,8 @@ export const httpCreated = (res: Response, data: any): Response => {
   return res.status(201).json(data);
 };
 
-export const httpOk = (res: Response): Response => {
-  return res.status(200).send();
+export const httpOk = (res: Response, data?: any): Response => {
+  return res.status(200).send(data ?? null);
 };
 
 export const httpBadRequest = (res: Response, error: any): Response => {

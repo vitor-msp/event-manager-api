@@ -46,3 +46,11 @@ export const validateGuestsToRemove = (guestsToRemove: any[]): void => {
 const validateGuestToRemove = (guest: any): void => {
   if (isNaN(guest)) throw new InvalidRequestError("Invalid Guest To Remove");
 };
+
+export const validateMonth = (month: number) => {
+  if (isNaN(month)) throw new InvalidRequestError("Invalid Month");
+};
+
+export const validateYear = (year: number) => {
+  if (isNaN(year)) throw new InvalidRequestError("Invalid Year");
+};
