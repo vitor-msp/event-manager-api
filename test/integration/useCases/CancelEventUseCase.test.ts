@@ -2,9 +2,7 @@ import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
 import { App } from "../../../src/main/app";
-import {
-  EventModel,
-} from "../../../src/infra/database/schemas/EventSchema";
+import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { IEvent } from "../../../src/app/interfaces/IEvent";
 
@@ -67,6 +65,24 @@ describe("Cancel Event Use Case", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should receive unauthorized when viewer try cancel an event", async () => {
+    await saveEvent();
+    const reqBody = {
+      eventId: 1,
+    };
+
+    const res: request.Response = await request(app)
+      .delete("/event")
+      .query({ userId: "3" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "User Cannot Cancel Event",
+    };
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   // it("should receive ok when editor edit an event", async () => {
   //   await saveEvent();
   //   const newEventStart = new Date();
@@ -99,7 +115,6 @@ describe("Cancel Event Use Case", () => {
   //     "{ user: 2, permission: 'Viewer' },{ user: 4, permission: 'Editor' }"
   //   );
   // });
-
 });
 
 afterAll(async () => {
