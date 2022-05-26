@@ -86,8 +86,8 @@ export class Event extends EventMaster {
   private canTheUserEdit(user: User): boolean {
     if (user.id === this.creator.id) return true;
     const index = this.findGuestIndex(user);
-    if (this.guests.at(index)?.permission === Permission.Editor)
-      return true;
+    if (index === -1) return false;
+    if (this.guests[index].permission === Permission.Editor) return true;
     return false;
   }
 
