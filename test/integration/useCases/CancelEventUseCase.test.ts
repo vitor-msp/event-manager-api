@@ -83,6 +83,24 @@ describe("Cancel Event Use Case", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should receive unauthorized when editor try cancel an event", async () => {
+    await saveEvent();
+    const reqBody = {
+      eventId: 1,
+    };
+
+    const res: request.Response = await request(app)
+      .delete("/event")
+      .query({ userId: "2" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "User Cannot Cancel Event",
+    };
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   // it("should receive ok when editor edit an event", async () => {
   //   await saveEvent();
   //   const newEventStart = new Date();
