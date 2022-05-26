@@ -71,6 +71,7 @@ export class Event extends EventMaster {
 
   public removeGuests(guests: User[], whoIsEditing: User): void {
     if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
+    guests = guests.filter(({ id }) => id !== whoIsEditing.id);
     for (const guest of guests) {
       this.guests = this.guests.filter(({ user }) => user.id !== guest.id);
     }

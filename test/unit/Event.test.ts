@@ -337,7 +337,28 @@ describe("Event Manipulated by Editor", () => {
     event.removeGuests(guests, userEditor);
 
     expect(event.getData().id).toBe(1);
-    expect(event.getGuests().length).toBe(0);
+    expect(event.getGuests().length).toBe(1);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+  });
+
+  it("should not editor can remove itself from the event", () => {
+    const eventStart = new Date();
+    let event = eventBuilder(eventStart);
+
+    const guests: User[] = [];
+    guests.push(userEditor);
+    event.removeGuests(guests, userEditor);
+
+    expect(event.getData().id).toBe(1);
+    expect(event.getGuests().length).toBe(2);
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userEditor, Permission.Editor)
+    );
+    expect(event.getGuests()).toContainEqual(
+      new Guest(event, userViewer, Permission.Viewer)
+    );
   });
 
   it("should editor can set guests permissions", () => {
