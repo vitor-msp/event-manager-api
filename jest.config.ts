@@ -15,6 +15,6 @@ export default {
   testMatch: [
     // "**/EditEventUseCase.test.ts",
     // "**/EditEventValidator.test.ts",
-    "**/test/**/*.test.ts?(x)",
+    // "**/test/**/*.test.ts?(x)",
   ],
 };

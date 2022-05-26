@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import { App } from "../../../src/main/app";
 import {
   EventModel,
-  IEventModel,
 } from "../../../src/infra/database/schemas/EventSchema";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { IEvent } from "../../../src/app/interfaces/IEvent";
