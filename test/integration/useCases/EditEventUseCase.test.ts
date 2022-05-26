@@ -68,6 +68,25 @@ describe("Case Permission Denied", () => {
     expect(res.statusCode).toBe(401);
     expect(res.body).toEqual(errorResponse);
   });
+
+  it("should receive unauthorized when viewer try edit an event", async () => {
+    await saveEvent();
+    const reqBody = {
+      id: 1,
+      title: "Event Edited",
+    };
+
+    const res: request.Response = await request(app)
+      .put("/event")
+      .query({ userId: "3" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Permission Denied!",
+    };
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toEqual(errorResponse);
+  });
 });
 
 afterAll(async () => {
