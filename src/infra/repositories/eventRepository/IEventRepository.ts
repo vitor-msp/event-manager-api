@@ -7,4 +7,6 @@ export interface IEventRepository {
   select(eventId: number): Promise<IEvent | null>;
 
   update(event: IEvent): Promise<void>;
+
+  delete(eventId: number): Promise<void>;
 }

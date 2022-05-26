@@ -18,4 +18,8 @@ export class EventRepositoryMongo implements IEventRepository {
   async update(event: IEvent): Promise<void> {
     await EventModel.findOneAndUpdate({ id: event.id }, event);
   }
+
+  async delete(eventId: number): Promise<void> {
+    await EventModel.findOneAndDelete({ id: eventId });
+  }
 }

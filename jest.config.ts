@@ -13,8 +13,8 @@ export default {
   coverageProvider: "v8",
   preset: "ts-jest",
   testMatch: [
-    "**/Event.test.ts",
-    // "**/EditEventValidator.test.ts",
+    // "**/Event.test.ts",
+    "**/CancelEventValidator.test.ts",
     // "**/test/**/*.test.ts?(x)",
   ],
 };
