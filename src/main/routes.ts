@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { cancelEventController, createEventController, editEventController } from "./factory";
+import { cancelEventController, createEventController, editEventController, exitOfTheEventController } from "./factory";
 
 const router = Router();
 
@@ -13,6 +13,10 @@ router.put("/event", (req: Request, res: Response) => {
 
 router.delete("/event", (req: Request, res: Response) => {
     cancelEventController.handle(req, res);
+});
+
+router.put("/event/exit", (req: Request, res: Response) => {
+    exitOfTheEventController.handle(req, res);
 });
 
 export default router;
