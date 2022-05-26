@@ -65,23 +65,23 @@ describe("Exit Of The Event Use Case", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
-  // it("should receive unauthorized when creator try exit of an event", async () => {
-  //   await saveEvent();
-  //   const reqBody = {
-  //     eventId: 1,
-  //   };
+  it("should receive unauthorized when creator try exit of an event", async () => {
+    await saveEvent();
+    const reqBody = {
+      eventId: 1,
+    };
 
-  //   const res: request.Response = await request(app)
-  //     .put("/event/exit")
-  //     .query({ userId: "3" })
-  //     .send(reqBody);
+    const res: request.Response = await request(app)
+      .put("/event/exit")
+      .query({ userId: "1" })
+      .send(reqBody);
 
-  //   const errorResponse: ErrorResponse = {
-  //     message: "User Cannot Cancel Event",
-  //   };
-  //   expect(res.statusCode).toBe(401);
-  //   expect(res.body).toEqual(errorResponse);
-  // });
+    const errorResponse: ErrorResponse = {
+      message: "Creator Cannot Exit Of The Event!",
+    };
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toEqual(errorResponse);
+  });
 
   // it("should receive ok when viewer exit of an event", async () => {
   //   await saveEvent();
