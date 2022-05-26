@@ -108,6 +108,30 @@ describe("Exit Of The Event Use Case", () => {
     );
   });
 
+  it("should receive ok when editor exit of an event", async () => {
+    await saveEvent();
+    const reqBody = {
+      eventId: 1,
+    };
+
+    const res: request.Response = await request(app)
+      .put("/event/exit")
+      .query({ userId: "2" })
+      .send(reqBody);
+
+    expect(res.statusCode).toBe(200);
+    const savedEvent: IEvent | null = await EventModel.findOne({ id: 1 });
+    const { id, creator, title, start, duration, guests } = savedEvent!;
+    expect(id).toBe(1);
+    expect(creator).toBe(1);
+    expect(title).toBe("Event Test");
+    expect(start.toISOString()).toBe(startEvent!.toISOString());
+    expect(duration).toBe(60 * 60);
+    expect(guests.toString()).toEqual(
+      "{ user: 3, permission: 'Viewer' }"
+    );
+  });
+
 });
 
 afterAll(async () => {
