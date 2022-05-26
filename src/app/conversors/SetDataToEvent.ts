@@ -10,9 +10,12 @@ export abstract class SetDataToEvent {
     currentUser: User
   ): void {
     const editEventData: EditEventData = {
-      title: eventData.title ?? null,
-      start: eventData.start ?? null,
-      duration: eventData.duration ?? null,
+      title: eventData.title ?? undefined,
+      start: eventData.start ?? undefined,
+      duration:
+        eventData.duration !== null && eventData.duration !== undefined
+          ? eventData.duration
+          : undefined,
     };
 
     event.setData(editEventData, currentUser);

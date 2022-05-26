@@ -26,15 +26,15 @@ export class EditEventUseCase {
     const currentUser = new User(currentUserId);
     SetDataToEvent.execute(eventData, event, currentUser);
 
-    if (eventData.guests?.length > 0)
-      SetGuestsToEvent.execute(eventData.guests, event, currentUser);
-
     if (eventData.guestsToRemove?.length! > 0)
       RemoveGuestsFromEvent.execute(
         eventData.guestsToRemove!,
         event,
         currentUser
       );
+
+    if (eventData.guests?.length > 0)
+      SetGuestsToEvent.execute(eventData.guests, event, currentUser);
 
     await this.eventRepository.update(GetDataFromEvent.execute(event));
   }

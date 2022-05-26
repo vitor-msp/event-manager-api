@@ -5,7 +5,7 @@ export interface IEvent {
   start: Date;
   duration: number;
   title: string;
-  creator: number;
+  creator?: number;
   guests: IGuest[];
   guestsToRemove?: number[];
 };

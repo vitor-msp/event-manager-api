@@ -7,7 +7,7 @@ export abstract class BuildExistingEvent {
   public static execute(event: IEvent): Event {
     const { id, creator, start, title, duration, guests } = event;
 
-    const userCreator = new User(creator);
+    const userCreator = new User(creator!);
     const savedEvent = new Event(
       {
         id,

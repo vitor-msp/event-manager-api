@@ -52,7 +52,7 @@ export class Event extends EventMaster {
   public setData(data: EditEventData, whoIsEditing: User): void {
     if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
     if (data.start) this.start = data.start;
-    if (data.duration) this.duration = data.duration;
+    if (data.duration !== undefined && data.duration !== null) this.duration = data.duration;
     if (data.title) this.title = data.title;
   }
 
