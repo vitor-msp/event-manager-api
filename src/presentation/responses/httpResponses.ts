@@ -32,3 +32,10 @@ export const httpNotFound = (res: Response, error: any): Response => {
   };
   return res.status(404).json(errorResponse);
 };
+
+export const httpUnauthorized = (res: Response, error: any): Response => {
+  const errorResponse: ErrorResponse = {
+    message: error?.message || `Unauthorized`,
+  };
+  return res.status(401).json(errorResponse);
+};

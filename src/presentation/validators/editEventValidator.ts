@@ -13,10 +13,10 @@ import {
 
 export const editEventValidator = (req: Request): void => {
 
-  const input: IEvent = req.body;
-
   if (!req.query.userId) throw new InvalidRequestError("Missing User Id");
   validateUserId(req.query.userId);
+  
+  const input: IEvent = req.body;
 
   if (!input.id) throw new InvalidRequestError("Missing Event Id");
   validateEventId(input.id);

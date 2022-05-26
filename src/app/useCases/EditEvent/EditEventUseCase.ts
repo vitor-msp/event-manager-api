@@ -6,6 +6,7 @@ import { User } from "../../../domain/entities/User";
 import { BuildExistingEvent } from "../../conversors/BuildExistingEvent";
 import { SetGuestsToEvent } from "../../conversors/SetGuestsToEvent";
 import { SetDataToEvent } from "../../conversors/SetDataToEvent";
+import { RemoveGuestsFromEvent } from "../../conversors/RemoveGuestsFromEvent";
 
 export class EditEventUseCase {
   constructor(private readonly eventRepository: IEventRepository) {}
@@ -27,6 +28,13 @@ export class EditEventUseCase {
 
     if (eventData.guests?.length > 0)
       SetGuestsToEvent.execute(eventData.guests, event, currentUser);
+
+    if (eventData.guestsToRemove?.length! > 0)
+      RemoveGuestsFromEvent.execute(
+        eventData.guestsToRemove!,
+        event,
+        currentUser
+      );
 
     await this.eventRepository.update(GetDataFromEvent.execute(event));
   }

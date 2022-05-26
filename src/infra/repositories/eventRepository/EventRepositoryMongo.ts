@@ -12,15 +12,6 @@ export class EventRepositoryMongo implements IEventRepository {
   }
 
   async select(eventId: number): Promise<IEvent | null> {
-    // const proj = {
-    //   id: 1,
-    //   creator: 1,
-    //   title: 1,
-    //   start: 1,
-    //   duration: 1,
-    //   guests: 1,
-    // }
-
     return await EventModel.findOne({ id: eventId });
   }
 

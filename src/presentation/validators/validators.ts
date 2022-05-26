@@ -19,7 +19,7 @@ export const validateStart = (start: string): void => {
 };
 
 export const validateDuration = (duration: number): void => {
-  if (isNaN(duration)) throw new InvalidRequestError("Invalid Duration");
+  if (isNaN(duration) || duration < 0) throw new InvalidRequestError("Invalid Duration");
 };
 
 export const validateGuests = (guests: IGuest[]): void => {
