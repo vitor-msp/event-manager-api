@@ -11,7 +11,24 @@ beforeAll(async () => {
   app = new App().express;
 });
 
-describe("Case Event Not Found", () => {
+const saveEvent = async () => {
+  await EventModel.deleteMany();
+  const startEvent = new Date();
+  const event: IEvent = {
+    id: 1,
+    creator: 1,
+    title: "Event Test",
+    start: startEvent,
+    duration: 60 * 60,
+    guests: [
+      { user: 2, permission: "Editor" },
+      { user: 3, permission: "Viewer" },
+    ],
+  };
+  await EventModel.create(event);
+};
+
+describe("Edit Event Use Case", () => {
   it("should receive not found for an inexisting event", async () => {
     await EventModel.deleteMany();
     const reqBody = {
@@ -30,25 +47,6 @@ describe("Case Event Not Found", () => {
     expect(res.statusCode).toBe(404);
     expect(res.body).toEqual(errorResponse);
   });
-});
-
-describe("Case Permission Denied", () => {
-  const saveEvent = async () => {
-    await EventModel.deleteMany();
-    const startEvent = new Date();
-    const event: IEvent = {
-      id: 1,
-      creator: 1,
-      title: "Event Test",
-      start: startEvent,
-      duration: 60 * 60,
-      guests: [
-        { user: 2, permission: "Editor" },
-        { user: 3, permission: "Viewer" },
-      ],
-    };
-    const res = await EventModel.create(event);
-  };
 
   it("should receive unauthorized when a not guest try edit an event", async () => {
     await saveEvent();
