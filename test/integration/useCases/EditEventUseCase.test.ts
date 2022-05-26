@@ -5,10 +5,11 @@ import { App } from "../../../src/main/app";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 
-describe("Create Event Use Case", () => {
+describe("Case Event Not Found", () => {
   let app: express.Application | null;
   beforeAll(async () => {
     app = new App().express;
+    await EventModel.deleteMany();
   });
 
   it("should receive not found for an inexisting event", async () => {

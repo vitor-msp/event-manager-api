@@ -6,7 +6,6 @@ import { App } from "../../../src/main/app";
 
 describe("Edit Event Validator", () => {
   let app: express.Application | null;
-  let reqBody: any;
   beforeAll(async () => {
     app = new App().express;
   });
