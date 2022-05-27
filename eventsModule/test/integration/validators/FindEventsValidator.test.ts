@@ -2,8 +2,8 @@ import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
-import { App } from "../../../src/main/app";
 import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
+import { App } from "../../../../main/app";
 
 describe("Find Events Validator", () => {
   let app: express.Application | null;

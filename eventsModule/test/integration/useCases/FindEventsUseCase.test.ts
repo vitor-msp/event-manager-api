@@ -1,9 +1,9 @@
 import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
-import { App } from "../../../src/main/app";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
+import { App } from "../../../../main/app";
 
 let app: express.Application | null;
 beforeAll(async () => {

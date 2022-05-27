@@ -2,9 +2,9 @@ import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
-import { App } from "../../../src/main/app";
+import { App } from "../../../../main/app";
 
-describe("Cancel Event Validator", () => {
+describe("Exit Of The Event Validator", () => {
   let app: express.Application | null;
   beforeAll(async () => {
     app = new App().express;
@@ -13,7 +13,7 @@ describe("Cancel Event Validator", () => {
   it("should return invalid request error missing user id", async () => {
     const reqBody = {};
     const res: request.Response = await request(app)
-      .delete("/event")
+      .put("/event/exit")
       .send(reqBody);
 
     const errorResponse: ErrorResponse = {
@@ -27,7 +27,7 @@ describe("Cancel Event Validator", () => {
     const reqBody = {};
 
     const res: request.Response = await request(app)
-      .delete("/event")
+      .put("/event/exit")
       .query({ userId: "a" })
       .send(reqBody);
 
@@ -41,7 +41,7 @@ describe("Cancel Event Validator", () => {
   it("should return invalid request error missing event id", async () => {
     const reqBody = {};
     const res: request.Response = await request(app)
-      .delete("/event")
+      .put("/event/exit")
       .query({ userId: "1" })
       .send(reqBody);
 
@@ -55,7 +55,7 @@ describe("Cancel Event Validator", () => {
   it("should return invalid request error invalid event id", async () => {
     const reqBody = { eventId: "a" };
     const res: request.Response = await request(app)
-      .delete("/event")
+      .put("/event/exit")
       .query({ userId: "1" })
       .send(reqBody);
 

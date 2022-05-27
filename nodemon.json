@@ -1,7 +1,7 @@
 {
-    "watch": ["src"],
+    "watch": ["eventsModule/src"],
     "ext": "ts",
     "execMap": {
-        "ts": "sucrase-node src/main/server.ts"
+        "ts": "sucrase-node main/server.ts"
     }
 }

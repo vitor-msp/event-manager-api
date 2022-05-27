@@ -23,4 +23,4 @@ router.get("/event", (req: Request, res: Response) => {
     findEventsController.handle(req, res);
 });
 
-export default router;
+export {router as eventsRouter};
