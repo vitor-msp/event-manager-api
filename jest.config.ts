@@ -14,7 +14,7 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/Event.test.ts",
-    "**/FindEventsValidator.test.ts",
+    "**/FindEventsUseCase.test.ts",
     // "**/test/**/*.test.ts?(x)",
   ],
 };

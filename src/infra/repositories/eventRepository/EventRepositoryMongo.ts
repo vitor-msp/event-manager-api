@@ -1,6 +1,6 @@
 import { IEvent } from "../../../app/interfaces/IEvent";
 import { CreateEventOutputDto } from "../../../app/useCases/CreateEvent/CreateEventOutputDto";
-import { EventModel } from "../../database/schemas/EventSchema";
+import { EventModel, IEventModel } from "../../database/schemas/EventSchema";
 import { SelectByPeriodDto, IEventRepository } from "./IEventRepository";
 
 export class EventRepositoryMongo implements IEventRepository {
@@ -24,8 +24,29 @@ export class EventRepositoryMongo implements IEventRepository {
   }
 
   async selectByPeriod(dto: SelectByPeriodDto): Promise<IEvent[]> {
-    return await EventModel.find({
-      /*implementar*/
-    });
+    const { userId, month, year } = dto;
+    const projection: IEvent = {
+      //@ts-ignore
+      _id: 0,
+      id: 1,
+      creator: 1,
+      //@ts-ignore
+      title: 1,
+      //@ts-ignore
+      start: 1,
+      duration: 1,
+      //@ts-ignore
+      guests: 1,
+    };
+    return await EventModel.find(
+      {
+        start: {
+          $gte: new Date(year, month, 1, 0, 0, 0),
+          $lte: new Date(year, month + 1, 0, 23, 59, 59),
+        },
+        $or: [{ creator: userId }, { "guests.user": userId }],
+      },
+      projection
+    );
   }
 }
