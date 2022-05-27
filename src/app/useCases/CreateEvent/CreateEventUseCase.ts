@@ -6,6 +6,7 @@ import { User } from "../../../domain/entities/User";
 import { BuildEvent } from "../../conversors/BuildEvent";
 import { SetGuestsToEvent } from "../../conversors/SetGuestsToEvent";
 import { IUsersService } from "../../../infra/usersService/IUsersService";
+import { FilterExistingGuests } from "../../conversors/FilterExistingGuests";
 
 export class CreateEventUseCase {
   constructor(
@@ -25,8 +26,9 @@ export class CreateEventUseCase {
         eventData.guests.map((g) => g.user)
       );
 
-      eventData.guests = eventData.guests.filter(
-        (g) => existingUsers.findIndex((u) => u === g.user) !== -1
+      eventData.guests = FilterExistingGuests.execute(
+        eventData.guests,
+        existingUsers
       );
 
       SetGuestsToEvent.execute(eventData.guests, event, currentUser);
