@@ -1,7 +1,7 @@
 export default {
   bail: 1,
   clearMocks: true,
-  collectCoverage: true,
+  // collectCoverage: true,
   collectCoverageFrom: [
     "src/**",
     "!src/**/I*.ts",
@@ -14,7 +14,7 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/Event.test.ts",
-    // "**/FindEventsUseCase.test.ts",
-    "**/test/**/*.test.ts?(x)",
+    "**/CreateEventUseCase.test.ts",
+    // "**/test/**/*.test.ts?(x)",
   ],
 };
