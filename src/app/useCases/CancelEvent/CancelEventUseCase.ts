@@ -19,6 +19,6 @@ export class CancelEventUseCase {
 
     if (!event.canTheUserCancel(currentUser)) throw new UserCannotCancelEvent();
     
-    await this.eventRepository.delete(event.getData().id);
+    await this.eventRepository.delete(event.getData().id!);
   }
 }

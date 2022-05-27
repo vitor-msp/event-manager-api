@@ -6,12 +6,11 @@ import { CreateEventData } from "../types/CreateEventData";
 import { EditEventData } from "../types/EditEventData";
 import { GuestData } from "../types/GuestData";
 import { Permission } from "../types/Permission";
-import { EventMaster } from "./EventMaster";
 import { Guest } from "./Guest";
 import { User } from "./User";
 
-export class Event extends EventMaster {
-  private readonly id: number;
+export class Event {
+  private readonly id: number | undefined;
   private start: Date;
   private duration: number;
   private title: string;
@@ -19,7 +18,6 @@ export class Event extends EventMaster {
   private guests: Guest[];
 
   constructor(data: CreateEventData, whoIsCreating: User) {
-    super();
     const duration = data.duration ?? 0;
     if (duration < 0) throw new InvalidFieldError("duration");
     this.duration = duration;
@@ -28,7 +26,7 @@ export class Event extends EventMaster {
     this.title = title;
     this.creator = whoIsCreating;
     this.guests = [];
-    this.id = data.id ?? super.getNexId();
+    this.id = data.id ?? undefined;
   }
 
   public getData() {
@@ -52,7 +50,8 @@ export class Event extends EventMaster {
   public setData(data: EditEventData, whoIsEditing: User): void {
     if (!this.canTheUserEdit(whoIsEditing)) throw new PermissionDeniedError();
     if (data.start) this.start = data.start;
-    if (data.duration !== undefined && data.duration !== null) this.duration = data.duration;
+    if (data.duration !== undefined && data.duration !== null)
+      this.duration = data.duration;
     if (data.title) this.title = data.title;
   }
 

@@ -1,10 +1,13 @@
 import { IEvent } from "../../../app/interfaces/IEvent";
 import { CreateEventOutputDto } from "../../../app/useCases/CreateEvent/CreateEventOutputDto";
-import { EventModel, IEventModel } from "../../database/schemas/EventSchema";
+import { NextId } from "../../database/helpers/NextId";
+import { EventModel } from "../../database/schemas/EventSchema";
 import { SelectByPeriodDto, IEventRepository } from "./IEventRepository";
 
 export class EventRepositoryMongo implements IEventRepository {
   async insert(event: IEvent): Promise<CreateEventOutputDto> {
+    event.id = await NextId.get();
+
     const { id } = await EventModel.create(event);
     return {
       eventId: id,

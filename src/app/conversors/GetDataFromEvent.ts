@@ -15,7 +15,7 @@ export abstract class GetDataFromEvent {
     );
 
     return {
-      id,
+      id: id!,
       start,
       duration,
       title,

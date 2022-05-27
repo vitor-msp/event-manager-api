@@ -18,6 +18,7 @@ describe("Event Manipulated by Creator", () => {
   const eventBuilder = (start: Date): Event => {
     const oneHourInSeconds = 60 * 60;
     const eventData: CreateEventData = {
+      id: 1,
       start,
       duration: oneHourInSeconds,
       title: "Test Event",
@@ -56,6 +57,7 @@ describe("Event Manipulated by Creator", () => {
   it("should create event without a duration", () => {
     const eventStart = new Date();
     const eventData: CreateEventData = {
+      id: 1,
       start: eventStart,
       title: "Test Event",
     };
@@ -73,6 +75,7 @@ describe("Event Manipulated by Creator", () => {
   it("should not create event with a negative duration", () => {
     const eventStart = new Date();
     const eventData: CreateEventData = {
+      id: 1,
       start: eventStart,
       duration: -1,
       title: "Test Event",
@@ -241,6 +244,7 @@ describe("Event Manipulated by Editor", () => {
   const eventBuilder = (start: Date): Event => {
     const oneHourInSeconds = 60 * 60;
     const eventData: CreateEventData = {
+      id: 1,
       start,
       duration: oneHourInSeconds,
       title: "Test Event",
@@ -445,6 +449,7 @@ describe("Event Manipulated by Viewer or Not Guest", () => {
   const eventBuilder = (start: Date): Event => {
     const oneHourInSeconds = 60 * 60;
     const eventData: CreateEventData = {
+      id: 1,
       start,
       duration: oneHourInSeconds,
       title: "Test Event",
