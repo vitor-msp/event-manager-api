@@ -20,7 +20,7 @@ const createEventUseCase = new CreateEventUseCase(
 );
 const createEventController = new CreateEventController(createEventUseCase);
 
-const editEventUseCase = new EditEventUseCase(eventRepositoryMongo);
+const editEventUseCase = new EditEventUseCase(eventRepositoryMongo, usersService);
 const editEventController = new EditEventController(editEventUseCase);
 
 const cancelEventUseCase = new CancelEventUseCase(eventRepositoryMongo);

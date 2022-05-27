@@ -14,7 +14,7 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/Event.test.ts",
-    "**/CreateEventUseCase.test.ts",
+    "**/EditEventUseCase.test.ts",
     // "**/test/**/*.test.ts?(x)",
   ],
 };
