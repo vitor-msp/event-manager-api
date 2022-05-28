@@ -1,5 +1,7 @@
 import { UserInputData } from "../types/UserInputData";
 import { UserOutputData } from "../types/UserOutputData";
+import * as EmailValidator from "email-validator";
+import { InvalidEmailError } from "../errors/InvalidEmailError";
 
 export class User {
   private readonly id: number | null;
@@ -16,6 +18,7 @@ export class User {
   }
 
   private setEmail(email: string) {
+    if (!EmailValidator.validate(email)) throw new InvalidEmailError();
     this.email = email;
   }
 
