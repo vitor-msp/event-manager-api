@@ -1,5 +1,6 @@
 import { User } from "../../src/domain/entities/User";
 import { InvalidEmailError } from "../../src/domain/errors/InvalidEmailError";
+import { InvalidNameError } from "../../src/domain/errors/InvalidNameError";
 import { UserInputData } from "../../src/domain/types/UserInputData";
 
 describe("User Tests", () => {
@@ -32,5 +33,14 @@ describe("User Tests", () => {
     expect(() => {
       new User(userData);
     }).toThrow(InvalidEmailError);
+  });
+
+  it("should not create user with blank name", () => {
+    const userData = buildUserData();
+    userData.name = "";
+
+    expect(() => {
+      new User(userData);
+    }).toThrow(InvalidNameError);
   });
 });
