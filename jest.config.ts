@@ -13,6 +13,7 @@ export default {
   coverageProvider: "v8",
   preset: "ts-jest",
   testMatch: [
-    "**/usersModule/**/test/**/*.test.ts?(x)",
+    "**/usersModule/test/integration/**/*.test.ts?(x)",
+    // "**/usersModule/**/test/**/*.test.ts?(x)",
   ],
 };
