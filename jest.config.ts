@@ -1,7 +1,7 @@
 export default {
   bail: 1,
   clearMocks: true,
-  collectCoverage: true,
+  // collectCoverage: true,
   collectCoverageFrom: [
     "usersModule/src/**",
     "!**/I*.ts",

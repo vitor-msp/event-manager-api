@@ -57,4 +57,8 @@ export class User {
 
     this.setPassword(newPass);
   };
+
+  public getPassword(): string {
+    return this.password;
+  }
 }

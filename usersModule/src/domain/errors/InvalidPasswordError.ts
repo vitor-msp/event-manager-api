@@ -1,4 +1,6 @@
-export class InvalidPasswordError extends Error {
+import { InvalidFieldError } from "./InvalidFieldError";
+
+export class InvalidPasswordError extends InvalidFieldError {
   constructor() {
     super("Invalid Password");
   }
