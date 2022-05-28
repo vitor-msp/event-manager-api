@@ -85,4 +85,18 @@ describe("Edit User Tests", () => {
     expect(user.passwordIsCorrect("teste123")).toBe(true);
     expect(user.passwordIsCorrect("Teste123")).toBe(false);
   });
+
+  it("should edit user password", () => {
+    const user = buildUser();
+
+    user.changePassword("teste.123", "teste123");
+
+    const { id, email, name } = user.getData();
+    expect(id).toBe(1);
+    expect(email).toBe("teste@teste.com");
+    expect(name).toBe("User Test");
+    expect(user.passwordIsCorrect("teste.123")).toBe(true);
+    expect(user.passwordIsCorrect("teste123")).toBe(false);
+    expect(user.passwordIsCorrect("another_password")).toBe(false);
+  });
 });

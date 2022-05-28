@@ -5,6 +5,7 @@ import { InvalidEmailError } from "../errors/InvalidEmailError";
 import { InvalidNameError } from "../errors/InvalidNameError";
 import { EncryptData } from "../helpers/EncryptData";
 import { CompareEncryptedData } from "../helpers/CompareEncryptedData";
+import { InvalidPasswordError } from "../errors/InvalidPasswordError";
 
 export class User {
   private readonly id: number | null;
@@ -50,4 +51,10 @@ export class User {
   public passwordIsCorrect(password: string): boolean {
     return CompareEncryptedData.execute(password, this.password);
   }
+
+  public changePassword(newPass: string, currentPass: string): void {
+    if (!this.passwordIsCorrect(currentPass)) throw new InvalidPasswordError();
+
+    this.setPassword(newPass);
+  };
 }
