@@ -1,0 +1,37 @@
+import { UserInputData } from "../types/UserInputData";
+import { UserOutputData } from "../types/UserOutputData";
+
+export class User {
+  private readonly id: number | null;
+  private email!: string;
+  private name: string;
+  private password!: string;
+
+  constructor(userData: UserInputData) {
+    this.id = userData.id ?? null;
+    const { name, email, password } = userData;
+    this.name = name;
+    this.setEmail(email);
+    this.setPassword(password);
+  }
+
+  private setEmail(email: string) {
+    this.email = email;
+  }
+
+  private setPassword(password: string) {
+    this.password = password;
+  }
+
+  public getData(): UserOutputData {
+    return {
+      id: this.id,
+      email: this.email,
+      name: this.name,
+    };
+  }
+
+  public passwordIsCorrect(password: string): boolean {
+    return this.password === password;
+  }
+}
