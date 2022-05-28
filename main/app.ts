@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { EventsDB } from "../eventsModule/src/main/EventsDB";
 import { eventsRouter } from "../eventsModule/src/main/routes";
+import { usersRouter } from "../usersModule/src/main/routes";
 
 export class App {
   public express: express.Application;
@@ -24,5 +25,6 @@ export class App {
 
   routes(): void {
     this.express.use(eventsRouter);
+    this.express.use(usersRouter);
   }
 }
