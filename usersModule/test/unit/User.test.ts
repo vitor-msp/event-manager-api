@@ -3,12 +3,12 @@ import { InvalidEmailError } from "../../src/domain/errors/InvalidEmailError";
 import { InvalidNameError } from "../../src/domain/errors/InvalidNameError";
 import { UserInputData } from "../../src/domain/types/UserInputData";
 
-describe("User Tests", () => {
+describe("Create User Tests", () => {
   const buildUserData = (): UserInputData => {
     return {
       id: 1,
       email: "teste@teste.com",
-      name: "User Teste",
+      name: "User Test",
       password: "teste123",
     };
   };
@@ -21,7 +21,7 @@ describe("User Tests", () => {
     const { id, email, name } = user.getData();
     expect(id).toBe(1);
     expect(email).toBe("teste@teste.com");
-    expect(name).toBe("User Teste");
+    expect(name).toBe("User Test");
     expect(user.passwordIsCorrect("teste123")).toBe(true);
     expect(user.passwordIsCorrect("Teste123")).toBe(false);
   });
@@ -60,5 +60,29 @@ describe("User Tests", () => {
     expect(() => {
       new User(userData);
     }).toThrow(InvalidNameError);
+  });
+});
+
+describe("Edit User Tests", () => {
+  const buildUser = (): User => {
+    return new User({
+      id: 1,
+      email: "teste@teste.com",
+      name: "User Test",
+      password: "teste123",
+    });
+  };
+
+  it("should edit user name", () => {
+    const user = buildUser();
+
+    user.setName("User Test Edited");
+
+    const { id, email, name } = user.getData();
+    expect(id).toBe(1);
+    expect(email).toBe("teste@teste.com");
+    expect(name).toBe("User Test Edited");
+    expect(user.passwordIsCorrect("teste123")).toBe(true);
+    expect(user.passwordIsCorrect("Teste123")).toBe(false);
   });
 });

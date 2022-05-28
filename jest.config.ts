@@ -3,7 +3,7 @@ export default {
   clearMocks: true,
   // collectCoverage: true,
   collectCoverageFrom: [
-    "eventsModule/src/**",
+    "usersModule/src/**",
     "!**/I*.ts",
     "!**/*Dto.ts",
     "!**/*Data.ts",

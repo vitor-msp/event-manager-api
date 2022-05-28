@@ -20,7 +20,7 @@ export class User {
     this.setPassword(password);
   }
 
-  private setName(name: any): void {
+  public setName(name: any): void {
     if (name.length === 0) throw new InvalidNameError();
 
     if (!isNaN(name)) throw new InvalidNameError();
