@@ -1,10 +1,10 @@
 import { CreateUserUseCase } from "../app/useCases/CreateUserUseCase";
-import { UsersRepository } from "../infra/repositories/usersRepository/UsersRepository";
+import { UsersRepositoryPG } from "../infra/repositories/usersRepository/UsersRepositoryPG";
 import { CreateUserController } from "../presentation/controllers/CreateUserController";
 
-const usersRepository = new UsersRepository();
+const usersRepositoryPG = new UsersRepositoryPG();
 
-const createUserUseCase = new CreateUserUseCase(usersRepository);
+const createUserUseCase = new CreateUserUseCase(usersRepositoryPG);
 const createUserController = new CreateUserController(createUserUseCase);
 
 export { createUserController };
