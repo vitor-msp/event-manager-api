@@ -14,7 +14,7 @@ describe("Create User Validator", () => {
   it("should return bad request: missing user name", async () => {
     // @ts-ignore
     const reqBody: CreateUserInputDto = {
-      email: "teste@teste.com",
+      email: "  teste@teste.com  ",
       password: "teste123",
     };
 
@@ -32,7 +32,7 @@ describe("Create User Validator", () => {
   it("should return bad request: missing user email", async () => {
     // @ts-ignore
     const reqBody: CreateUserInputDto = {
-      name: "User Test",
+      name: "  User Test  ",
       password: "teste123",
     };
 
@@ -49,8 +49,8 @@ describe("Create User Validator", () => {
 
   it("should return bad request: invalid user email", async () => {
     const reqBody: CreateUserInputDto = {
-      name: "User Test",
-      email: "teste.teste.com",
+      name: "  User Test  ",
+      email: "  teste.teste.com  ",
       password: "teste123",
     };
 
@@ -68,8 +68,8 @@ describe("Create User Validator", () => {
   it("should return bad request: missing user password", async () => {
     // @ts-ignore
     const reqBody: CreateUserInputDto = {
-      name: "User Test",
-      email: "teste@teste.com",
+      name: "  User Test  ",
+      email: "  teste@teste.com  ",
     };
 
     const res: request.Response = await request(app)
@@ -85,8 +85,8 @@ describe("Create User Validator", () => {
 
   it("should return bad request: user password is blank", async () => {
     const reqBody: CreateUserInputDto = {
-      name: "User Test",
-      email: "teste@teste.com",
+      name: "  User Test  ",
+      email: "  teste@teste.com  ",
       password: "         ",
     };
 

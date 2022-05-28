@@ -9,7 +9,7 @@ export const createUserValidator = (req: Request): void => {
   if (!input.name) throw new InvalidRequestError("Missing User Name");
 
   if (!input.email) throw new InvalidRequestError("Missing User Email");
-  validateEmail(input.email);
+  validateEmail(input.email.trim());
 
   if (!input.password) throw new InvalidRequestError("Missing User Password");
   validatePassword(input.password.trim());

@@ -22,6 +22,8 @@ export class User {
   }
 
   public setName(name: any): void {
+    name = name.trim();
+
     if (name.length === 0) throw new InvalidNameError();
 
     if (!isNaN(name)) throw new InvalidNameError();
@@ -32,7 +34,10 @@ export class User {
   }
 
   private setEmail(email: string): void {
+    email = email.trim();
+
     if (!EmailValidator.validate(email)) throw new InvalidEmailError();
+
     this.email = email;
   }
 
@@ -56,7 +61,7 @@ export class User {
     if (!this.passwordIsCorrect(currentPass)) throw new InvalidPasswordError();
 
     this.setPassword(newPass);
-  };
+  }
 
   public getPassword(): string {
     return this.password;

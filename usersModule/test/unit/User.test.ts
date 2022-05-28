@@ -8,8 +8,8 @@ describe("Create User Tests", () => {
   const buildUserData = (): UserInputDto => {
     return {
       id: 1,
-      email: "teste@teste.com",
-      name: "User Test",
+      email: "  teste@teste.com  ",
+      name: "  User Test  ",
       password: "teste123",
     };
   };
@@ -29,7 +29,7 @@ describe("Create User Tests", () => {
 
   it("should not create user with invalid email", () => {
     const userData = buildUserData();
-    userData.email = "teste.teste.com";
+    userData.email = "  teste.teste.com  ";
 
     expect(() => {
       new User(userData);
@@ -38,7 +38,7 @@ describe("Create User Tests", () => {
 
   it("should not create user with blank name", () => {
     const userData = buildUserData();
-    userData.name = "";
+    userData.name = "     ";
 
     expect(() => {
       new User(userData);
@@ -47,7 +47,7 @@ describe("Create User Tests", () => {
 
   it("should not create user with numeric type name", () => {
     const userData = buildUserData();
-    userData.name = "50";
+    userData.name = "  50  ";
 
     expect(() => {
       new User(userData);
@@ -56,7 +56,7 @@ describe("Create User Tests", () => {
 
   it("should not create user with date type name", () => {
     const userData = buildUserData();
-    userData.name = new Date().toISOString();
+    userData.name = `  ${new Date().toISOString()}  `;
 
     expect(() => {
       new User(userData);
@@ -68,8 +68,8 @@ describe("Edit User Tests", () => {
   const buildUser = (): User => {
     return new User({
       id: 1,
-      email: "teste@teste.com",
-      name: "User Test",
+      email: "  teste@teste.com  ",
+      name: "  User Test  ",
       password: "teste123",
     });
   };
@@ -77,7 +77,7 @@ describe("Edit User Tests", () => {
   it("should edit user name", () => {
     const user = buildUser();
 
-    user.setName("User Test Edited");
+    user.setName("  User Test Edited  ");
 
     const { id, email, name } = user.getData();
     expect(id).toBe(1);
