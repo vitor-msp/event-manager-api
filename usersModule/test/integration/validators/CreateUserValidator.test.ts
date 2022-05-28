@@ -66,6 +66,24 @@ describe("Create User Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return bad request: invalid user email", async () => {
+    const reqBody: CreateUserInputDto = {
+      name: "User Test",
+      email: "teste.teste.com",
+      password: "teste123",
+    };
+
+    const res: request.Response = await request(app)
+      .post("/user")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid User Email",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   afterAll(async () => {
     mongoose.disconnect();
     app = null;
