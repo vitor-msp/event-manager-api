@@ -29,25 +29,6 @@ describe("Create User Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
-  // it("should return bad request: invalid user name", async () => {
-  //   const reqBody: CreateUserInputDto = {
-  //     // @ts-ignore
-  //     name: 100,
-  //     email: "teste@teste.com",
-  //     password: "teste123",
-  //   };
-
-  //   const res: request.Response = await request(app)
-  //     .post("/user")
-  //     .send(reqBody);
-
-  //   const errorResponse: ErrorResponse = {
-  //     message: "Invalid User Name",
-  //   };
-  //   expect(res.statusCode).toBe(400);
-  //   expect(res.body).toEqual(errorResponse);
-  // });
-
   it("should return bad request: missing user email", async () => {
     // @ts-ignore
     const reqBody: CreateUserInputDto = {
