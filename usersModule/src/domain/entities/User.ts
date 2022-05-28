@@ -19,7 +19,12 @@ export class User {
   }
 
   private setName(name: any): void {
-    if (name.length === 0 || !isNaN(name)) throw new InvalidNameError();
+    if (name.length === 0) throw new InvalidNameError();
+
+    if (!isNaN(name)) throw new InvalidNameError();
+
+    if (!isNaN(new Date(name).getDate())) throw new InvalidNameError();
+
     this.name = name;
   }
 

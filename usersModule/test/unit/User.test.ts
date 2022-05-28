@@ -52,4 +52,13 @@ describe("User Tests", () => {
       new User(userData);
     }).toThrow(InvalidNameError);
   });
+
+  it("should not create user with date type name", () => {
+    const userData = buildUserData();
+    userData.name = new Date().toISOString();
+
+    expect(() => {
+      new User(userData);
+    }).toThrow(InvalidNameError);
+  });
 });
