@@ -3,6 +3,8 @@ import { UserOutputData } from "../types/UserOutputData";
 import * as EmailValidator from "email-validator";
 import { InvalidEmailError } from "../errors/InvalidEmailError";
 import { InvalidNameError } from "../errors/InvalidNameError";
+import { EncryptData } from "../helpers/EncryptData";
+import { CompareEncryptedData } from "../helpers/CompareEncryptedData";
 
 export class User {
   private readonly id: number | null;
@@ -34,7 +36,7 @@ export class User {
   }
 
   private setPassword(password: string): void {
-    this.password = password;
+    this.password = EncryptData.execute(password);
   }
 
   public getData(): UserOutputData {
@@ -46,6 +48,6 @@ export class User {
   }
 
   public passwordIsCorrect(password: string): boolean {
-    return this.password === password;
+    return CompareEncryptedData.execute(password, this.password);
   }
 }
