@@ -18,8 +18,8 @@ export class User {
     this.setPassword(password);
   }
 
-  private setName(name: string): void {
-    if (name.length === 0) throw new InvalidNameError();
+  private setName(name: any): void {
+    if (name.length === 0 || !isNaN(name)) throw new InvalidNameError();
     this.name = name;
   }
 

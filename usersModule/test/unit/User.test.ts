@@ -43,4 +43,13 @@ describe("User Tests", () => {
       new User(userData);
     }).toThrow(InvalidNameError);
   });
+
+  it("should not create user with numeric type name", () => {
+    const userData = buildUserData();
+    userData.name = "50";
+
+    expect(() => {
+      new User(userData);
+    }).toThrow(InvalidNameError);
+  });
 });
