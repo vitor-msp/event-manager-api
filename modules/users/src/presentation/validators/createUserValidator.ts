@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { InvalidRequestError } from "../../../../helpers/errors/InvalidRequestError";
+import { InvalidRequestError } from "../../../../../helpers/errors/InvalidRequestError";
 import { CreateUserInputDto } from "../../app/useCases/CreateUserInputDto";
 import { validateEmail, validatePassword } from "./validators";
 

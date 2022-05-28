@@ -1,8 +1,8 @@
 import request from "supertest";
 import express from "express";
-import { App } from "../../../../main/app";
+import { App } from "../../../../../main/app";
 import { CreateUserInputDto } from "../../../src/app/useCases/CreateUserInputDto";
-import { ErrorResponse } from "../../../../helpers/responses/httpResponses";
+import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 import mongoose from "mongoose";
 
 describe("Create User Validator", () => {

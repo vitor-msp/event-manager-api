@@ -1,5 +1,5 @@
 import * as EmailValidator from 'email-validator'
-import { InvalidRequestError } from "../../../../helpers/errors/InvalidRequestError";
+import { InvalidRequestError } from "../../../../../helpers/errors/InvalidRequestError";
 
 export const validateEmail = (email: any): void => {
   if (!EmailValidator.validate(email)) throw new InvalidRequestError("Invalid User Email");

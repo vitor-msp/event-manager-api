@@ -3,7 +3,7 @@ export default {
   clearMocks: true,
   // collectCoverage: true,
   collectCoverageFrom: [
-    "usersModule/src/**",
+    "modules/users/src/**",
     "!**/I*.ts",
     "!**/*Dto.ts",
     // "!**/*Data.ts",
@@ -13,7 +13,7 @@ export default {
   coverageProvider: "v8",
   preset: "ts-jest",
   testMatch: [
-    // "**/usersModule/test/integration/**/*.test.ts?(x)",
-    "**/usersModule/**/test/**/*.test.ts?(x)",
+    // "**/modules/users/test/integration/**/*.test.ts?(x)",
+    "**/modules/users/**/test/**/*.test.ts?(x)",
   ],
 };

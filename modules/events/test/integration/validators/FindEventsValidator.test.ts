@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
-import { App } from "../../../../main/app";
+import { App } from "../../../../../main/app";
 
 describe("Find Events Validator", () => {
   let app: express.Application | null;

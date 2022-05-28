@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { InvalidRequestError } from "../../../../helpers/errors/InvalidRequestError";
+import { InvalidRequestError } from "../../../../../helpers/errors/InvalidRequestError";
 import {
   httpBadRequest,
   httpCreated,
   httpServerError,
-} from "../../../../helpers/responses/httpResponses";
+} from "../../../../../helpers/responses/httpResponses";
 import { EmailInUseError } from "../../app/errors/EmailInUseError";
 import { CreateUserInputDto } from "../../app/useCases/CreateUserInputDto";
 import { CreateUserUseCase } from "../../app/useCases/CreateUserUseCase";

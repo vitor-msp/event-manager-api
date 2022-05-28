@@ -2,7 +2,7 @@ import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
-import { App } from "../../../../main/app";
+import { App } from "../../../../../main/app";
 
 describe("Cancel Event Validator", () => {
   let app: express.Application | null;
