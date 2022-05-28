@@ -1,6 +1,7 @@
 import { User } from "../../src/domain/entities/User";
 import { InvalidEmailError } from "../../src/domain/errors/InvalidEmailError";
 import { InvalidNameError } from "../../src/domain/errors/InvalidNameError";
+import { InvalidPasswordError } from "../../src/domain/errors/InvalidPasswordError";
 import { UserInputData } from "../../src/domain/types/UserInputData";
 
 describe("Create User Tests", () => {
@@ -97,6 +98,21 @@ describe("Edit User Tests", () => {
     expect(name).toBe("User Test");
     expect(user.passwordIsCorrect("teste.123")).toBe(true);
     expect(user.passwordIsCorrect("teste123")).toBe(false);
+    expect(user.passwordIsCorrect("another_password")).toBe(false);
+  });
+
+  it("should not edit user password for invalid current password", () => {
+    const user = buildUser();
+
+    expect(() => user.changePassword("teste.123", "testE123")).toThrow(
+      InvalidPasswordError
+    );
+    const { id, email, name } = user.getData();
+    expect(id).toBe(1);
+    expect(email).toBe("teste@teste.com");
+    expect(name).toBe("User Test");
+    expect(user.passwordIsCorrect("teste123")).toBe(true);
+    expect(user.passwordIsCorrect("teste.123")).toBe(false);
     expect(user.passwordIsCorrect("another_password")).toBe(false);
   });
 });
