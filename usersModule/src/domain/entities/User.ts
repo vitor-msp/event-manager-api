@@ -1,5 +1,5 @@
-import { UserInputData } from "../types/UserInputData";
-import { UserOutputData } from "../types/UserOutputData";
+import { UserInputDto } from "../types/UserInputDto";
+import { UserOutputDto } from "../types/UserOutputDto";
 import * as EmailValidator from "email-validator";
 import { InvalidEmailError } from "../errors/InvalidEmailError";
 import { InvalidNameError } from "../errors/InvalidNameError";
@@ -13,7 +13,7 @@ export class User {
   private name!: string;
   private password!: string;
 
-  constructor(userData: UserInputData) {
+  constructor(userData: UserInputDto) {
     this.id = userData.id ?? null;
     const { name, email, password } = userData;
     this.setName(name);
@@ -40,7 +40,7 @@ export class User {
     this.password = EncryptData.execute(password);
   }
 
-  public getData(): UserOutputData {
+  public getData(): UserOutputDto {
     return {
       id: this.id,
       email: this.email,

@@ -2,10 +2,10 @@ import { User } from "../../src/domain/entities/User";
 import { InvalidEmailError } from "../../src/domain/errors/InvalidEmailError";
 import { InvalidNameError } from "../../src/domain/errors/InvalidNameError";
 import { InvalidPasswordError } from "../../src/domain/errors/InvalidPasswordError";
-import { UserInputData } from "../../src/domain/types/UserInputData";
+import { UserInputDto } from "../../src/domain/types/UserInputDto";
 
 describe("Create User Tests", () => {
-  const buildUserData = (): UserInputData => {
+  const buildUserData = (): UserInputDto => {
     return {
       id: 1,
       email: "teste@teste.com",
