@@ -4,8 +4,8 @@ export type ErrorResponse = {
   message: string;
 };
 
-export const httpCreated = (res: Response, data?: any): Response => {
-  return res.status(201).json(data ?? null);
+export const httpCreated = (res: Response, data: any): Response => {
+  return res.status(201).json(data);
 };
 
 export const httpOk = (res: Response, data?: any): Response => {
