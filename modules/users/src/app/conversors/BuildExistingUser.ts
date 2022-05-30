@@ -5,6 +5,6 @@ export abstract class BuildExistingUser {
   public static execute(user: IUser): User {
     const { id, email, name, password } = user;
 
-    return new User({ id: id!, email, name, password });
+    return new User({ id: id!, email, name, password, saved: true });
   }
 }

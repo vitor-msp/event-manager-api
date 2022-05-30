@@ -1,5 +1,5 @@
 export default {
-  bail: 1,
+  // bail: 1,
   clearMocks: true,
   // collectCoverage: true,
   collectCoverageFrom: [
@@ -16,6 +16,7 @@ export default {
     // "**/modules/users/test/integration/**/*.test.ts?(x)",
     "**/User.test.ts",
     "**/ChangePasswordUseCase.test.ts",
+    "**/EditUserUseCase.test.ts",
     // "**/users/test/**/*.test.ts?(x)",
   ],
 };

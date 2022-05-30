@@ -35,8 +35,14 @@ export class UsersRepositoryPG implements IUsersRepository {
   }
 
   async update(user: IUser): Promise<void> {
-    const { id, name } = user;
+    const { id, email, name, password } = user;
 
-    await this.usersRepository.update({ id: id! }, { name });
+    const userEntity = new UserEntity();
+    userEntity.id = id!;
+    userEntity.email = email;
+    userEntity.name = name;
+    userEntity.password = password;
+
+    await this.usersRepository.save(userEntity);
   }
 }

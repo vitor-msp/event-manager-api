@@ -12,13 +12,23 @@ export class User {
   private email!: string;
   private name!: string;
   private password!: string;
+  private saved?: boolean = false;
 
   constructor(userData: UserInputDto) {
-    this.id = userData.id ?? null;
+    this.saved = userData.saved ?? false;
     const { name, email, password } = userData;
-    this.setName(name);
-    this.setEmail(email);
-    this.setPassword(password);
+    
+    if (this.saved) {
+      this.id = userData.id!;
+      this.name = name;
+      this.email= email;
+      this.password = password;
+    } else {
+      this.id = userData.id ?? null;
+      this.setName(name);
+      this.setEmail(email);
+      this.setPassword(password);
+    }
   }
 
   public setName(name: any): void {

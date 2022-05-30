@@ -3,4 +3,5 @@ export type UserInputDto = {
   email: string;
   name: string;
   password: string;
+  saved?: boolean;
 };

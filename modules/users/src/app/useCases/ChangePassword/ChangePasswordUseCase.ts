@@ -20,6 +20,6 @@ export class ChangePasswordUseCase {
     const { currentPassword, newPassword } = input;
     user.changePassword(newPassword, currentPassword);
 
-    // await this.usersRepository.update(GetDataFromUser.execute(user));
+    await this.usersRepository.update(GetDataFromUser.execute(user));
   }
 }
