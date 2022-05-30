@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import { DataSource, DataSourceOptions } from 'typeorm'
+import {  DataSourceOptions } from 'typeorm'
 import { UserEntity } from "../schemas/UserEntity";
 
 export const dbOptions: DataSourceOptions = {
@@ -13,5 +13,3 @@ export const dbOptions: DataSourceOptions = {
   synchronize: true,
   logging: false,
 };
-
-export const AppDataSource = new DataSource(dbOptions);
