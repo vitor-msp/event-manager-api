@@ -35,7 +35,7 @@ describe("Create User Use Case", () => {
     savedUser.name = "Other user";
     savedUser.password = "teste123";
     await dataSource.getRepository(UserEntity).save(savedUser);
-    
+
     const reqBody: CreateUserInputDto = {
       name: "User Test",
       email: "teste@teste.com",
@@ -47,6 +47,24 @@ describe("Create User Use Case", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Email In Use",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should receive bad request for invalid name", async () => {
+    await dataSource.getRepository(UserEntity).clear();
+    const reqBody: CreateUserInputDto = {
+      name: "     ",
+      email: "teste@teste.com",
+      password: "teste123",
+    };
+    const res: request.Response = await request(app)
+      .post("/user")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Name",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
