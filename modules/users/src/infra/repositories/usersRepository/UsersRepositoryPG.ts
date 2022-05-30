@@ -1,5 +1,6 @@
 import { DataSource, Repository } from "typeorm";
 import { IUser } from "../../../app/interfaces/IUser";
+import { CreateUserOutputDto } from "../../../app/useCases/CreateUserOutputDto";
 import { UserEntity } from "../../database/schemas/UserEntity";
 import { IUsersRepository } from "./IUsersRepository";
 
@@ -14,14 +15,16 @@ export class UsersRepositoryPG implements IUsersRepository {
     return false;
   }
 
-  async insert(user: IUser): Promise<void> {
+  async insert(user: IUser): Promise<CreateUserOutputDto> {
     const { email, name, password } = user;
-    
+
     const userEntity = new UserEntity();
     userEntity.email = email;
     userEntity.name = name;
     userEntity.password = password;
 
     await this.usersRepository.save(userEntity);
+
+    return { userId: userEntity.id };
   }
 }

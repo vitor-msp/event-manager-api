@@ -1,7 +1,7 @@
 export default {
   bail: 1,
   clearMocks: true,
-  // collectCoverage: true,
+  collectCoverage: true,
   collectCoverageFrom: [
     "modules/users/src/**",
     "!**/I*.ts",
@@ -14,6 +14,6 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/modules/users/test/integration/**/*.test.ts?(x)",
-    "**/modules/users/**/test/**/*.test.ts?(x)",
+    "**/users/test/integration/**/*.test.ts?(x)",
   ],
 };

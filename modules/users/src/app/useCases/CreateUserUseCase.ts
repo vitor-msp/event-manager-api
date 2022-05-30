@@ -3,16 +3,17 @@ import { IUsersRepository } from "../../infra/repositories/usersRepository/IUser
 import { GetDataFromUser } from "../conversors/GetDataFromUser";
 import { EmailInUseError } from "../errors/EmailInUseError";
 import { CreateUserInputDto } from "./CreateUserInputDto";
+import { CreateUserOutputDto } from "./CreateUserOutputDto";
 
 export class CreateUserUseCase {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
-  public async execute(userDto: CreateUserInputDto): Promise<void> {
+  public async execute(userDto: CreateUserInputDto): Promise<CreateUserOutputDto> {
     if (await this.usersRepository.existsByEmail(userDto.email))
       throw new EmailInUseError();
 
     const user = new User(userDto);
 
-    await this.usersRepository.insert(GetDataFromUser.execute(user));
+    return await this.usersRepository.insert(GetDataFromUser.execute(user));
   }
 }

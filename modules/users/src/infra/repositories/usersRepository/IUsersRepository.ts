@@ -1,7 +1,8 @@
 import { IUser } from "../../../app/interfaces/IUser";
+import { CreateUserOutputDto } from "../../../app/useCases/CreateUserOutputDto";
 
 export interface IUsersRepository {
   existsByEmail(email: string): Promise<boolean>;
 
-  insert(event: IUser): Promise<void>;
+  insert(event: IUser): Promise<CreateUserOutputDto>;
 }

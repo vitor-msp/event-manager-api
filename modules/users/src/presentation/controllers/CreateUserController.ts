@@ -20,9 +20,9 @@ export class CreateUserController {
 
       const input: CreateUserInputDto = req.body;
 
-      await this.createUserUseCase.execute(input);
+      const output = await this.createUserUseCase.execute(input);
 
-      return httpCreated(res);
+      return httpCreated(res, output);
     } catch (error: any) {
       if (
         error instanceof InvalidRequestError ||

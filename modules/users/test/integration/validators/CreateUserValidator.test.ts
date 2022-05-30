@@ -3,12 +3,12 @@ import express from "express";
 import { App } from "../../../../../main/app";
 import { CreateUserInputDto } from "../../../src/app/useCases/CreateUserInputDto";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
-import mongoose from "mongoose";
+import { dataSource } from "../../../src/main/factory";
 
 describe("Create User Validator", () => {
   let app: express.Application | null;
   beforeAll(async () => {
-    app = new App().express;
+    app = (await new App().run()).express;
   });
 
   it("should return bad request: missing user name", async () => {
@@ -102,7 +102,7 @@ describe("Create User Validator", () => {
   });
 
   afterAll(async () => {
-    mongoose.disconnect();
+    await dataSource.destroy();
     app = null;
   });
 });
