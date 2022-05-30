@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import { ChangePasswordUseCase } from "../app/useCases/ChangePassword/ChangePasswordUseCase";
 import { CreateUserUseCase } from "../app/useCases/CreateUser/CreateUserUseCase";
 import { EditUserUseCase } from "../app/useCases/EditUser/EditUserUseCase";
 import { GetUserDataUseCase } from "../app/useCases/GetUserData/GetUserDataUseCase";
@@ -21,7 +22,10 @@ const getUserDataController = new GetUserDataController(getUserDataUseCase);
 const editUserUseCase = new EditUserUseCase(usersRepositoryPG);
 const editUserController = new EditUserController(editUserUseCase);
 
-const changePasswordController = new ChangePasswordController();
+const changePasswordUseCase = new ChangePasswordUseCase(usersRepositoryPG);
+const changePasswordController = new ChangePasswordController(
+  changePasswordUseCase
+);
 
 export {
   dataSource,
