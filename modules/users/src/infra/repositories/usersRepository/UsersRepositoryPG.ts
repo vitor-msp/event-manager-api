@@ -1,6 +1,7 @@
 import { DataSource, Repository } from "typeorm";
 import { IUser } from "../../../app/interfaces/IUser";
 import { CreateUserOutputDto } from "../../../app/useCases/CreateUser/CreateUserOutputDto";
+import { GetUserDataOutputDto } from "../../../app/useCases/GetUserData/GetUserDataOutputDto";
 import { UserEntity } from "../../database/schemas/UserEntity";
 import { IUsersRepository } from "./IUsersRepository";
 
@@ -27,5 +28,19 @@ export class UsersRepositoryPG implements IUsersRepository {
     await this.usersRepository.save(userEntity);
 
     return { userId: userEntity.id };
+  }
+
+  async select(userId: number): Promise<GetUserDataOutputDto | null> {
+    const user = await this.usersRepository.findOneBy({ id: userId });
+
+    if (!user) return null;
+
+    const { id, email, name } = user;
+
+    return {
+      id,
+      name,
+      email,
+    };
   }
 }

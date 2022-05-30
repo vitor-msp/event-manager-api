@@ -2,26 +2,31 @@ import { Request, Response } from "express";
 import { InvalidRequestError } from "../../../../../helpers/errors/InvalidRequestError";
 import {
   httpBadRequest,
-  httpCreated,
+  httpNotFound,
+  httpOk,
   httpServerError,
 } from "../../../../../helpers/responses/httpResponses";
+import { UserNotFoundError } from "../../app/errors/UserNotFoundError";
+import { GetUserDataUseCase } from "../../app/useCases/GetUserData/GetUserDataUseCase";
 import { getUserDataValidator } from "../validators/getUserDataValidator";
 
 export class GetUserDataController {
-  // constructor(private readonly createUserUseCase: CreateUserUseCase) {}
+  constructor(private readonly getUserDataUseCase: GetUserDataUseCase) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       getUserDataValidator(req);
 
-      // const input: CreateUserInputDto = req.body;
+      const userId: number = +req.query.userId!;
 
-      // const output = await this.createUserUseCase.execute(input);
+      const output = await this.getUserDataUseCase.execute(userId);
 
-      return httpCreated(res, {});
+      return httpOk(res, output);
     } catch (error: any) {
       if (error instanceof InvalidRequestError)
         return httpBadRequest(res, error);
+
+      if (error instanceof UserNotFoundError) return httpNotFound(res, error);
 
       return httpServerError(res, error);
     }

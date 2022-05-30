@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import { CreateUserUseCase } from "../app/useCases/CreateUser/CreateUserUseCase";
+import { GetUserDataUseCase } from "../app/useCases/GetUserData/GetUserDataUseCase";
 import { dbOptions } from "../infra/database/config/configDB";
 import { UsersRepositoryPG } from "../infra/repositories/usersRepository/UsersRepositoryPG";
 import { CreateUserController } from "../presentation/controllers/CreateUserController";
@@ -11,6 +12,7 @@ const usersRepositoryPG = new UsersRepositoryPG(dataSource);
 const createUserUseCase = new CreateUserUseCase(usersRepositoryPG);
 const createUserController = new CreateUserController(createUserUseCase);
 
-const getUserDataController = new GetUserDataController();
+const getUserDataUseCase = new GetUserDataUseCase(usersRepositoryPG)
+const getUserDataController = new GetUserDataController(getUserDataUseCase);
 
 export { dataSource, createUserController, getUserDataController };
