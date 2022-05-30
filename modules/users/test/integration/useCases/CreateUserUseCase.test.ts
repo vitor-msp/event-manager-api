@@ -5,6 +5,7 @@ import { CreateUserInputDto } from "../../../src/app/useCases/CreateUser/CreateU
 import { dataSource } from "../../../src/main/factory";
 import { UserEntity } from "../../../src/infra/database/schemas/UserEntity";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
+import { CompareEncryptedData } from "../../../src/domain/helpers/CompareEncryptedData";
 
 describe("Create User Use Case", () => {
   let app: express.Application | null;
@@ -31,6 +32,12 @@ describe("Create User Use Case", () => {
       .findOneBy({ id: res.body.userId });
     expect(savedUser!.email).toBe("teste@teste.com");
     expect(savedUser!.name).toBe("User Test");
+    expect(CompareEncryptedData.execute("teste123", savedUser!.password)).toBe(
+      true
+    );
+    expect(CompareEncryptedData.execute("teste.123", savedUser!.password)).toBe(
+      false
+    );
   });
 
   it("should receive bad request when email already in use", async () => {
