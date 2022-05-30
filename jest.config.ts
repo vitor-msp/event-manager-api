@@ -14,7 +14,7 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/modules/users/test/integration/**/*.test.ts?(x)",
-    "**/EditUserUseCase.test.ts",
+    "**/ChangePasswordValidator.test.ts",
     // "**/users/test/**/*.test.ts?(x)",
   ],
 };
