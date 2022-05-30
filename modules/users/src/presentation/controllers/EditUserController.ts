@@ -2,18 +2,13 @@ import { Request, Response } from "express";
 import { InvalidRequestError } from "../../../../../helpers/errors/InvalidRequestError";
 import {
   httpBadRequest,
-  httpCreated,
   httpNotFound,
+  httpOk,
   httpServerError,
 } from "../../../../../helpers/responses/httpResponses";
-import { EmailInUseError } from "../../app/errors/EmailInUseError";
 import { UserNotFoundError } from "../../app/errors/UserNotFoundError";
-import { CreateUserInputDto } from "../../app/useCases/CreateUser/CreateUserInputDto";
-import { CreateUserUseCase } from "../../app/useCases/CreateUser/CreateUserUseCase";
 import { EditUserInputDto } from "../../app/useCases/EditUser/EditUserInputDto";
 import { EditUserUseCase } from "../../app/useCases/EditUser/EditUserUseCase";
-import { InvalidFieldError } from "../../domain/errors/InvalidFieldError";
-import { createUserValidator } from "../validators/createUserValidator";
 import { editUserValidator } from "../validators/editUserValidator";
 
 export class EditUserController {
@@ -24,11 +19,11 @@ export class EditUserController {
       editUserValidator(req);
 
       const userId: number = +req.query.userId!;
-      // const input: EditUserInputDto = req.body;
+      const input: EditUserInputDto = req.body;
 
-      const output = await this.editUserUseCase.execute(userId);
+      await this.editUserUseCase.execute(userId, input);
 
-      return httpCreated(res, "output");
+      return httpOk(res);
     } catch (error: any) {
       if (error instanceof InvalidRequestError)
         return httpBadRequest(res, error);

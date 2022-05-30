@@ -31,6 +31,31 @@ describe("Edit User Use Case", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should receive ok", async () => {
+    await dataSource.getRepository(UserEntity).clear();
+    const user = new UserEntity();
+    user.email = "teste@teste.com";
+    user.name = "User Test";
+    user.password = "teste123";
+    await dataSource.getRepository(UserEntity).save(user);
+
+    const reqBody: EditUserInputDto = {
+      name: "User Test Edited",
+    };
+    const res: request.Response = await request(app)
+      .put("/user")
+      .query({ userId: user.id.toString() })
+      .send(reqBody);
+
+    expect(res.statusCode).toBe(200);
+    const savedUser = await dataSource
+      .getRepository(UserEntity)
+      .findOneBy({ id: user.id });
+    expect(savedUser!.email).toBe("teste@teste.com");
+    expect(savedUser!.name).toBe("User Test Edited");
+    expect(savedUser!.password).toBe("teste123");
+  });
+
   afterAll(async () => {
     await dataSource.destroy();
     app = null;

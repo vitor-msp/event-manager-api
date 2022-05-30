@@ -30,17 +30,13 @@ export class UsersRepositoryPG implements IUsersRepository {
     return { userId: userEntity.id };
   }
 
-  async select(userId: number): Promise<GetUserDataOutputDto | null> {
-    const user = await this.usersRepository.findOneBy({ id: userId });
+  async select(userId: number): Promise<IUser | null> {
+    return await this.usersRepository.findOneBy({ id: userId });
+  }
 
-    if (!user) return null;
+  async update(user: IUser): Promise<void> {
+    const { id, name } = user;
 
-    const { id, email, name } = user;
-
-    return {
-      id,
-      name,
-      email,
-    };
+    await this.usersRepository.update({ id: id! }, { name });
   }
 }

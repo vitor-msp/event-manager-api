@@ -6,11 +6,16 @@ export class GetUserDataUseCase {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
   public async execute(userId: number): Promise<GetUserDataOutputDto> {
-    const user = await this.usersRepository.select(userId)
-    
-    if (!user)
-      throw new UserNotFoundError();
+    const user = await this.usersRepository.select(userId);
 
-    return user;
+    if (!user) throw new UserNotFoundError();
+
+    const { email, name } = user;
+
+    return {
+      id: user.id!,
+      email,
+      name,
+    };
   }
 }

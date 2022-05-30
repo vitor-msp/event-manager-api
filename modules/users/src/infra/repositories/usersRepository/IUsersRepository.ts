@@ -7,5 +7,7 @@ export interface IUsersRepository {
 
   insert(user: IUser): Promise<CreateUserOutputDto>;
 
-  select(userId: number): Promise<GetUserDataOutputDto | null>;
+  select(userId: number): Promise<IUser | null>;
+
+  update(user: IUser): Promise<void>;
 }
