@@ -10,4 +10,6 @@ export const changePasswordValidator = (req: Request): void => {
   const input: ChangePasswordInputDto = req.body;
 
   if (!input.currentPassword) throw new InvalidRequestError("Missing Current Password");
+
+  if (!input.newPassword) throw new InvalidRequestError("Missing New Password");
 };

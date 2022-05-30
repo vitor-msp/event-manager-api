@@ -42,10 +42,27 @@ describe("Change Password Validator", () => {
     const res: request.Response = await request(app)
       .put("/user/password")
       .query({ userId: "1" })
-      .send();
+      .send(reqBody);
 
     const errorResponse: ErrorResponse = {
       message: "Missing Current Password",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return bad request: missing new password", async () => {
+    const reqBody: ChangePasswordInputDto = {
+      currentPassword: "teste123",
+      newPassword: "",
+    };
+    const res: request.Response = await request(app)
+      .put("/user/password")
+      .query({ userId: "1" })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing New Password",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
