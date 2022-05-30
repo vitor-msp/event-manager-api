@@ -26,6 +26,11 @@ describe("Create User Use Case", () => {
 
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty("userId");
+    const savedUser = await dataSource
+      .getRepository(UserEntity)
+      .findOneBy({ id: res.body.userId });
+    expect(savedUser!.email).toBe("teste@teste.com");
+    expect(savedUser!.name).toBe("User Test");
   });
 
   it("should receive bad request when email already in use", async () => {
