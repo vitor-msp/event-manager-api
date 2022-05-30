@@ -10,22 +10,26 @@ export class App {
 
   constructor() {
     this.express = express();
-    this.middlewares();
-    this.database();
-    this.routes();
   }
 
-  middlewares(): void {
+  public async run(): Promise<App> {
+    this.middlewares();
+    await this.database();
+    this.routes();
+    return this;
+  }
+
+  private middlewares(): void {
     this.express.use(cors());
     this.express.use(express.json());
   }
 
-  async database(): Promise<void> {
+  private async database(): Promise<void> {
     // await EventsDB.connect();
     await UsersDB.connect();
   }
 
-  routes(): void {
+  private routes(): void {
     // this.express.use(eventsRouter);
     this.express.use(usersRouter);
   }

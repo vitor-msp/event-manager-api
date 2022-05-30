@@ -1,7 +1,9 @@
 import { App } from "./app";
 
-const port = process.env.PORT || 8080;
+(async () => {
+  const port = process.env.PORT || 8080;
 
-const app = new App();
+  const app = await new App().run();
 
-app.express.listen(port, () => console.log(`Api stated on port ${port}!`));
+  app.express.listen(port, () => console.log(`Api stated on port ${port}!`));
+})();
