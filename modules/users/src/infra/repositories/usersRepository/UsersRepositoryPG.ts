@@ -12,7 +12,8 @@ export class UsersRepositoryPG implements IUsersRepository {
   }
 
   async existsByEmail(email: string): Promise<boolean> {
-    return false;
+    const emails = await this.usersRepository.find({ where: { email } });
+    return emails.length !== 0;
   }
 
   async insert(user: IUser): Promise<CreateUserOutputDto> {
