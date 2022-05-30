@@ -8,3 +8,7 @@ export const validateEmail = (email: any): void => {
 export const validatePassword = (password: string): void => {
   if (password.length === 0) throw new InvalidRequestError("Password Is Blank");
 };
+
+export const validateUserId = (id: any): void => {
+  if (isNaN(id)) throw new InvalidRequestError("Invalid User Id");
+};

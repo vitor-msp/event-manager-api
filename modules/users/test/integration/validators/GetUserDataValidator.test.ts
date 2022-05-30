@@ -22,6 +22,19 @@ describe("Get User Data Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return bad request: invalid user id", async () => {
+    const res: request.Response = await request(app)
+      .get("/user")
+      .query({userId: "a"})
+      .send();
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid User Id",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
 
   afterAll(async () => {
     await dataSource.destroy();
