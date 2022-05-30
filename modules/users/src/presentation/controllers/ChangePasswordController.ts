@@ -5,9 +5,12 @@ import {
   httpNotFound,
   httpOk,
   httpServerError,
+  httpUnauthorized,
 } from "../../../../../helpers/responses/httpResponses";
 import { UserNotFoundError } from "../../app/errors/UserNotFoundError";
+import { ChangePasswordInputDto } from "../../app/useCases/ChangePassword/ChangePasswordInputDto";
 import { ChangePasswordUseCase } from "../../app/useCases/ChangePassword/ChangePasswordUseCase";
+import { InvalidPasswordError } from "../../domain/errors/InvalidPasswordError";
 import { changePasswordValidator } from "../validators/changePasswordValidator";
 
 export class ChangePasswordController {
@@ -18,20 +21,19 @@ export class ChangePasswordController {
       changePasswordValidator(req);
 
       const userId: number = +req.query.userId!;
-      // const input: EditUserInputDto = req.body;
+      const input: ChangePasswordInputDto = req.body;
 
-      await this.changePasswordUseCase.execute(userId);
+      await this.changePasswordUseCase.execute(userId, input);
 
       return httpOk(res);
     } catch (error: any) {
-      if (
-        error instanceof InvalidRequestError
-        // ||
-        // error instanceof InvalidFieldError
-      )
+      if (error instanceof InvalidRequestError)
         return httpBadRequest(res, error);
 
       if (error instanceof UserNotFoundError) return httpNotFound(res, error);
+
+      if (error instanceof InvalidPasswordError)
+        return httpUnauthorized(res, error);
 
       return httpServerError(res, error);
     }

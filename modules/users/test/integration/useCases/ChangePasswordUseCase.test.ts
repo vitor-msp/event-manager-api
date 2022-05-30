@@ -11,10 +11,10 @@ describe("Change Password Use Case", () => {
   beforeAll(async () => {
     app = (await new App().run()).express;
   });
-  
+
   it("should receive not found for an inexistent user", async () => {
     await dataSource.getRepository(UserEntity).clear();
-    
+
     const reqBody: ChangePasswordInputDto = {
       currentPassword: "teste123",
       newPassword: "teste.123",
@@ -29,6 +29,36 @@ describe("Change Password Use Case", () => {
     };
     expect(res.statusCode).toBe(404);
     expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should receive unauthorized for invalid password", async () => {
+    await dataSource.getRepository(UserEntity).clear();
+    const user = new UserEntity();
+    user.email = "teste@teste.com";
+    user.name = "User Test";
+    user.password = "teste123";
+    await dataSource.getRepository(UserEntity).save(user);
+
+    const reqBody: ChangePasswordInputDto = {
+      currentPassword: "teste.123",
+      newPassword: "teste.123",
+    };
+    const res: request.Response = await request(app)
+      .put("/user/password")
+      .query({ userId: user.id })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Password",
+    };
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toEqual(errorResponse);
+    const savedUser = await dataSource
+      .getRepository(UserEntity)
+      .findOneBy({ id: user.id });
+    expect(savedUser!.email).toBe("teste@teste.com");
+    expect(savedUser!.name).toBe("User Test");
+    expect(savedUser!.password).toBe("teste123");
   });
 
   afterAll(async () => {

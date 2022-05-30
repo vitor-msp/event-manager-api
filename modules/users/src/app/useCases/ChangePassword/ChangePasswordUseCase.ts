@@ -7,14 +7,18 @@ import { ChangePasswordInputDto } from "./ChangePasswordInputDto";
 export class ChangePasswordUseCase {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
-  public async execute(userId: number): Promise<void> {
+  public async execute(
+    userId: number,
+    input: ChangePasswordInputDto
+  ): Promise<void> {
     const userEntity = await this.usersRepository.select(userId);
 
     if (!userEntity) throw new UserNotFoundError();
 
-    // const user = BuildExistingUser.execute(userEntity);
+    const user = BuildExistingUser.execute(userEntity);
 
-    // user.setName(input.name);
+    const { currentPassword, newPassword } = input;
+    user.changePassword(newPassword, currentPassword);
 
     // await this.usersRepository.update(GetDataFromUser.execute(user));
   }
