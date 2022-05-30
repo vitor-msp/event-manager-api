@@ -14,6 +14,6 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/modules/users/test/integration/**/*.test.ts?(x)",
-    "**/users/test/integration/useCases/*.test.ts?(x)",
+    "**/users/test/**/*.test.ts?(x)",
   ],
 };

@@ -1,6 +1,6 @@
 import { DataSource, Repository } from "typeorm";
 import { IUser } from "../../../app/interfaces/IUser";
-import { CreateUserOutputDto } from "../../../app/useCases/CreateUserOutputDto";
+import { CreateUserOutputDto } from "../../../app/useCases/CreateUser/CreateUserOutputDto";
 import { UserEntity } from "../../database/schemas/UserEntity";
 import { IUsersRepository } from "./IUsersRepository";
 

@@ -1,7 +1,7 @@
-import { User } from "../../domain/entities/User";
-import { IUsersRepository } from "../../infra/repositories/usersRepository/IUsersRepository";
-import { GetDataFromUser } from "../conversors/GetDataFromUser";
-import { EmailInUseError } from "../errors/EmailInUseError";
+import { User } from "../../../domain/entities/User";
+import { IUsersRepository } from "../../../infra/repositories/usersRepository/IUsersRepository";
+import { GetDataFromUser } from "../../conversors/GetDataFromUser";
+import { EmailInUseError } from "../../errors/EmailInUseError";
 import { CreateUserInputDto } from "./CreateUserInputDto";
 import { CreateUserOutputDto } from "./CreateUserOutputDto";
 

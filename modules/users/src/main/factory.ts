@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { CreateUserUseCase } from "../app/useCases/CreateUserUseCase";
+import { CreateUserUseCase } from "../app/useCases/CreateUser/CreateUserUseCase";
 import { dbOptions } from "../infra/database/config/configDB";
 import { UsersRepositoryPG } from "../infra/repositories/usersRepository/UsersRepositoryPG";
 import { CreateUserController } from "../presentation/controllers/CreateUserController";

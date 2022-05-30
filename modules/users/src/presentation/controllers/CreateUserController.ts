@@ -6,8 +6,8 @@ import {
   httpServerError,
 } from "../../../../../helpers/responses/httpResponses";
 import { EmailInUseError } from "../../app/errors/EmailInUseError";
-import { CreateUserInputDto } from "../../app/useCases/CreateUserInputDto";
-import { CreateUserUseCase } from "../../app/useCases/CreateUserUseCase";
+import { CreateUserInputDto } from "../../app/useCases/CreateUser/CreateUserInputDto";
+import { CreateUserUseCase } from "../../app/useCases/CreateUser/CreateUserUseCase";
 import { InvalidFieldError } from "../../domain/errors/InvalidFieldError";
 import { createUserValidator } from "../validators/createUserValidator";
 
