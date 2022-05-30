@@ -9,6 +9,7 @@ import {
 import { UserNotFoundError } from "../../app/errors/UserNotFoundError";
 import { EditUserInputDto } from "../../app/useCases/EditUser/EditUserInputDto";
 import { EditUserUseCase } from "../../app/useCases/EditUser/EditUserUseCase";
+import { InvalidFieldError } from "../../domain/errors/InvalidFieldError";
 import { editUserValidator } from "../validators/editUserValidator";
 
 export class EditUserController {
@@ -25,7 +26,10 @@ export class EditUserController {
 
       return httpOk(res);
     } catch (error: any) {
-      if (error instanceof InvalidRequestError)
+      if (
+        error instanceof InvalidRequestError ||
+        error instanceof InvalidFieldError
+      )
         return httpBadRequest(res, error);
 
       if (error instanceof UserNotFoundError) return httpNotFound(res, error);

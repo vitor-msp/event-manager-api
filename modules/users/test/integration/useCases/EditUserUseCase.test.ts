@@ -56,6 +56,35 @@ describe("Edit User Use Case", () => {
     expect(savedUser!.password).toBe("teste123");
   });
 
+  it("should receive bad request for invalid name", async () => {
+    await dataSource.getRepository(UserEntity).clear();
+    const user = new UserEntity();
+    user.email = "teste@teste.com";
+    user.name = "User Test";
+    user.password = "teste123";
+    await dataSource.getRepository(UserEntity).save(user);
+
+    const reqBody: EditUserInputDto = {
+      name: "123",
+    };
+    const res: request.Response = await request(app)
+      .put("/user")
+      .query({ userId: user.id.toString() })
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Invalid Name",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+    const savedUser = await dataSource
+      .getRepository(UserEntity)
+      .findOneBy({ id: user.id });
+    expect(savedUser!.email).toBe("teste@teste.com");
+    expect(savedUser!.name).toBe("User Test");
+    expect(savedUser!.password).toBe("teste123");
+  });
+
   afterAll(async () => {
     await dataSource.destroy();
     app = null;
