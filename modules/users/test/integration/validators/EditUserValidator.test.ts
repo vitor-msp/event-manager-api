@@ -33,6 +33,19 @@ describe("Edit User Validator", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should return bad request: missing fields to edit", async () => {
+    const res: request.Response = await request(app)
+      .put("/user")
+      .query({ userId: "1" })
+      .send();
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Fields To Edit",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
   afterAll(async () => {
     await dataSource.destroy();
     app = null;
