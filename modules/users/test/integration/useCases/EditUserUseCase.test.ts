@@ -1,7 +1,6 @@
 import request from "supertest";
 import express from "express";
 import { App } from "../../../../../main/app";
-import { CreateUserInputDto } from "../../../src/app/useCases/CreateUser/CreateUserInputDto";
 import { dataSource } from "../../../src/main/factory";
 import { UserEntity } from "../../../src/infra/database/schemas/UserEntity";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
