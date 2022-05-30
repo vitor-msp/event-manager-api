@@ -4,16 +4,14 @@ import { App } from "../../../../../main/app";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 import { dataSource } from "../../../src/main/factory";
 
-describe("Get User Data Validator", () => {
+describe("Edit User Validator", () => {
   let app: express.Application | null;
   beforeAll(async () => {
     app = (await new App().run()).express;
   });
 
   it("should return bad request: missing user id", async () => {
-    const res: request.Response = await request(app)
-      .get("/user")
-      .send();
+    const res: request.Response = await request(app).put("/user").send();
 
     const errorResponse: ErrorResponse = {
       message: "Missing User Id",
@@ -24,8 +22,8 @@ describe("Get User Data Validator", () => {
 
   it("should return bad request: invalid user id", async () => {
     const res: request.Response = await request(app)
-      .get("/user")
-      .query({userId: "a"})
+      .put("/user")
+      .query({ userId: "a" })
       .send();
 
     const errorResponse: ErrorResponse = {
