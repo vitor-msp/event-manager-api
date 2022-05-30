@@ -3,6 +3,7 @@ import express from "express";
 import { App } from "../../../../../main/app";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 import { dataSource } from "../../../src/main/factory";
+import { ChangePasswordInputDto } from "../../../src/app/useCases/ChangePassword/ChangePasswordInputDto";
 
 describe("Change Password Validator", () => {
   let app: express.Application | null;
@@ -28,6 +29,23 @@ describe("Change Password Validator", () => {
 
     const errorResponse: ErrorResponse = {
       message: "Invalid User Id",
+    };
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should return bad request: missing current password", async () => {
+    const reqBody: ChangePasswordInputDto = {
+      currentPassword: "",
+      newPassword: "teste.123",
+    };
+    const res: request.Response = await request(app)
+      .put("/user/password")
+      .query({ userId: "1" })
+      .send();
+
+    const errorResponse: ErrorResponse = {
+      message: "Missing Current Password",
     };
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
