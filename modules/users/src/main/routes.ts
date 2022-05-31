@@ -10,24 +10,26 @@ import {
 
 const router = Router();
 
+// Free Routes
 router.post("/user", (req: Request, res: Response) => {
   createUserController.handle(req, res);
 });
 
+router.post("/user/auth", (req: Request, res: Response) => {
+  authController.handle(req, res);
+});
+
+// Authorized Routes
 router.get("/user", verifyJWT, (req: Request, res: Response) => {
   getUserDataController.handle(req, res);
 });
 
-router.put("/user", (req: Request, res: Response) => {
+router.put("/user", verifyJWT, (req: Request, res: Response) => {
   editUserController.handle(req, res);
 });
 
-router.put("/user/password", (req: Request, res: Response) => {
+router.put("/user/password", verifyJWT, (req: Request, res: Response) => {
   changePasswordController.handle(req, res);
-});
-
-router.post("/user/auth", (req: Request, res: Response) => {
-  authController.handle(req, res);
 });
 
 export { router as usersRouter };
