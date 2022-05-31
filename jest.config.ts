@@ -1,5 +1,5 @@
 export default {
-  // bail: 1,
+  bail: 1,
   clearMocks: true,
   // collectCoverage: true,
   collectCoverageFrom: [
@@ -14,7 +14,7 @@ export default {
   preset: "ts-jest",
   testMatch: [
     // "**/modules/users/test/integration/**/*.test.ts?(x)",
-    "**/AuthUseCase.test.ts",
-    // "**/users/test/**/*.test.ts?(x)",
+    // "**/AuthUseCase.test.ts",
+    "**/users/test/**/*.test.ts?(x)",
   ],
 };

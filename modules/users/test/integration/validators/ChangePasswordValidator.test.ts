@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import { App } from "../../../../../main/app";
+import { AppUsers } from "../mocks/appUsers.mock";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 import { dataSource } from "../../../src/main/factory";
 import { ChangePasswordInputDto } from "../../../src/app/useCases/ChangePassword/ChangePasswordInputDto";
@@ -8,7 +8,7 @@ import { ChangePasswordInputDto } from "../../../src/app/useCases/ChangePassword
 describe("Change Password Validator", () => {
   let app: express.Application | null;
   beforeAll(async () => {
-    app = (await new App().run()).express;
+    app = (await new AppUsers().run()).express;
   });
 
   it("should return bad request: missing user id", async () => {

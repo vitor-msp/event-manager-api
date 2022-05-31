@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import { App } from "../../../../../main/app";
+import { AppUsers } from "../mocks/appUsers.mock";
 import { dataSource } from "../../../src/main/factory";
 import { UserEntity } from "../../../src/infra/database/schemas/UserEntity";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
@@ -8,7 +8,7 @@ import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 describe("Create User Use Case", () => {
   let app: express.Application | null;
   beforeAll(async () => {
-    app = (await new App().run()).express;
+    app = (await new AppUsers().run()).express;
     await dataSource.getRepository(UserEntity).clear();
   });
 

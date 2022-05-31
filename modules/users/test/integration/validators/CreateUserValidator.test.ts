@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import { App } from "../../../../../main/app";
+import { AppUsers } from "../mocks/appUsers.mock";
 import { CreateUserInputDto } from "../../../src/app/useCases/CreateUser/CreateUserInputDto";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 import { dataSource } from "../../../src/main/factory";
@@ -8,7 +8,7 @@ import { dataSource } from "../../../src/main/factory";
 describe("Create User Validator", () => {
   let app: express.Application | null;
   beforeAll(async () => {
-    app = (await new App().run()).express;
+    app = (await new AppUsers().run()).express;
   });
 
   it("should return bad request: missing user name", async () => {
