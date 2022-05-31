@@ -39,3 +39,10 @@ export const httpUnauthorized = (res: Response, error: any): Response => {
   };
   return res.status(401).json(errorResponse);
 };
+
+export const httpForbidden = (res: Response, message: string): Response => {
+  const errorResponse: ErrorResponse = {
+    message,
+  };
+  return res.status(403).json(errorResponse);
+};
