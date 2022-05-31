@@ -53,17 +53,6 @@ describe("Auth Use Case", () => {
     };
     expect(res.statusCode).toBe(401);
     expect(res.body).toEqual(errorResponse);
-    const savedUser = await dataSource
-      .getRepository(UserEntity)
-      .findOneBy({ id: user.id });
-    expect(savedUser!.email).toBe("teste@teste.com");
-    expect(savedUser!.name).toBe("User Test");
-    expect(CompareEncryptedData.execute("teste123", savedUser!.password)).toBe(
-      true
-    );
-    expect(CompareEncryptedData.execute("Teste123", savedUser!.password)).toBe(
-      false
-    );
   });
 
   afterAll(async () => {
