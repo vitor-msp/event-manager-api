@@ -4,6 +4,7 @@ import { ChangePasswordUseCase } from "../app/useCases/ChangePassword/ChangePass
 import { CreateUserUseCase } from "../app/useCases/CreateUser/CreateUserUseCase";
 import { EditUserUseCase } from "../app/useCases/EditUser/EditUserUseCase";
 import { GetUserDataUseCase } from "../app/useCases/GetUserData/GetUserDataUseCase";
+import { GetUsersUseCase } from "../app/useCases/GetUsers/GetUsersUseCase";
 import { dbOptions } from "../infra/database/config/configDB";
 import { UsersRepositoryPG } from "../infra/repositories/usersRepository/UsersRepositoryPG";
 import { AuthController } from "../presentation/controllers/AuthController";
@@ -11,6 +12,7 @@ import { ChangePasswordController } from "../presentation/controllers/ChangePass
 import { CreateUserController } from "../presentation/controllers/CreateUserController";
 import { EditUserController } from "../presentation/controllers/EditUserController";
 import { GetUserDataController } from "../presentation/controllers/GetUserDataController";
+import { GetUsersController } from "../presentation/controllers/GetUsersController";
 
 const dataSource = new DataSource(dbOptions);
 const usersRepositoryPG = new UsersRepositoryPG(dataSource);
@@ -32,6 +34,9 @@ const changePasswordController = new ChangePasswordController(
 const authUseCase = new AuthUseCase(usersRepositoryPG);
 const authController = new AuthController(authUseCase);
 
+const getUsersUseCase = new GetUsersUseCase(usersRepositoryPG);
+const getUsersController = new GetUsersController(getUsersUseCase);
+
 export {
   dataSource,
   createUserController,
@@ -39,4 +44,5 @@ export {
   editUserController,
   changePasswordController,
   authController,
+  getUsersController,
 };

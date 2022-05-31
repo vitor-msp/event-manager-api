@@ -6,6 +6,7 @@ import {
   createUserController,
   editUserController,
   getUserDataController,
+  getUsersController,
 } from "./factory";
 
 const router = Router();
@@ -30,6 +31,10 @@ router.put("/user", verifyJWT, (req: Request, res: Response) => {
 
 router.put("/user/password", verifyJWT, (req: Request, res: Response) => {
   changePasswordController.handle(req, res);
+});
+
+router.get("/users", verifyJWT, (req: Request, res: Response) => {
+  getUsersController.handle(req, res);
 });
 
 export { router as usersRouter };

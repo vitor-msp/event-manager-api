@@ -5,6 +5,7 @@ import {
   createUserController,
   editUserController,
   getUserDataController,
+  getUsersController,
 } from "../../../src/main/factory";
 
 const router = Router();
@@ -27,6 +28,10 @@ router.put("/user/password", (req: Request, res: Response) => {
 
 router.post("/user/auth", (req: Request, res: Response) => {
   authController.handle(req, res);
+});
+
+router.get("/users", (req: Request, res: Response) => {
+  getUsersController.handle(req, res);
 });
 
 export { router as usersRouterMock };

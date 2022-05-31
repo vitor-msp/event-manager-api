@@ -49,4 +49,8 @@ export class UsersRepositoryPG implements IUsersRepository {
   async selectByEmail(email: string): Promise<IUser | null> {
     return await this.usersRepository.findOneBy({ email });
   }
+
+  async selectMany(): Promise<IUser[]> {
+    return await this.usersRepository.find();
+  }
 }
