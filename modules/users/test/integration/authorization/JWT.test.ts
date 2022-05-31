@@ -33,6 +33,16 @@ describe("JWT Test", () => {
     expect(res.body).toEqual(errorResponse);
   });
 
+  it("should receive unauthorized for an invalid jwt", async () => {
+    const res: request.Response = await request(app)
+      .get("/user")
+      .auth("any_jwt", { type: "bearer" })
+      .send();
+
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toHaveProperty("message");
+  });
+
   afterAll(async () => {
     await dataSource.destroy();
     app = null;

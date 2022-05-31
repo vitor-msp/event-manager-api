@@ -1,14 +1,26 @@
 import { NextFunction, Request, Response } from "express";
-import { httpForbidden } from "../responses/httpResponses";
+import jwt from "jsonwebtoken";
+import {
+  httpBadRequest,
+  httpForbidden,
+  httpUnauthorized,
+} from "../responses/httpResponses";
 
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization;
 
   if (!bearer) return httpForbidden(res, "Missing JWT");
 
-  const jwt = bearer.slice(7);
+  const token = bearer.slice(7);
 
-  if (!jwt || jwt.length === 0) return httpForbidden(res, "Missing JWT");
+  if (!token || token.length === 0) return httpForbidden(res, "Missing JWT");
 
-  next();
+  jwt.verify(token, process.env.JWT_KEY!, (err, decoded) => {
+    if (err) return httpUnauthorized(res, err);
+
+    // @ts-ignore
+    req.userId = decoded.userdId;
+
+    next();
+  });
 };
