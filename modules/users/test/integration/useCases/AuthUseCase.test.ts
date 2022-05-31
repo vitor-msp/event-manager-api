@@ -5,6 +5,8 @@ import { dataSource } from "../../../src/main/factory";
 import { UserEntity } from "../../../src/infra/database/schemas/UserEntity";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
 import { AuthInputDto } from "../../../src/app/useCases/Auth/AuthInputDto";
+import { EncryptData } from "../../../src/domain/helpers/EncryptData";
+import { CompareEncryptedData } from "../../../src/domain/helpers/CompareEncryptedData";
 
 describe("Auth Use Case", () => {
   let app: express.Application | null;
@@ -17,7 +19,7 @@ describe("Auth Use Case", () => {
 
     const reqBody: AuthInputDto = {
       email: "teste@teste.com",
-      password: "teste123"
+      password: "teste123",
     };
     const res: request.Response = await request(app)
       .post("/user/auth")
@@ -28,6 +30,40 @@ describe("Auth Use Case", () => {
     };
     expect(res.statusCode).toBe(404);
     expect(res.body).toEqual(errorResponse);
+  });
+
+  it("should receive unauthorized for invalid password", async () => {
+    await dataSource.getRepository(UserEntity).clear();
+    const user = new UserEntity();
+    user.email = "teste@teste.com";
+    user.name = "User Test";
+    user.password = EncryptData.execute("teste123");
+    await dataSource.getRepository(UserEntity).save(user);
+
+    const reqBody: AuthInputDto = {
+      email: "teste@teste.com",
+      password: "Teste123",
+    };
+    const res: request.Response = await request(app)
+      .post("/user/auth")
+      .send(reqBody);
+
+    const errorResponse: ErrorResponse = {
+      message: "Incorrect Password",
+    };
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toEqual(errorResponse);
+    const savedUser = await dataSource
+      .getRepository(UserEntity)
+      .findOneBy({ id: user.id });
+    expect(savedUser!.email).toBe("teste@teste.com");
+    expect(savedUser!.name).toBe("User Test");
+    expect(CompareEncryptedData.execute("teste123", savedUser!.password)).toBe(
+      true
+    );
+    expect(CompareEncryptedData.execute("Teste123", savedUser!.password)).toBe(
+      false
+    );
   });
 
   afterAll(async () => {

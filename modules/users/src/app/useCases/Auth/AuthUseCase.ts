@@ -1,4 +1,6 @@
 import { IUsersRepository } from "../../../infra/repositories/usersRepository/IUsersRepository";
+import { BuildExistingUser } from "../../conversors/BuildExistingUser";
+import { IncorrectPasswordError } from "../../errors/IncorrectPasswordError";
 import { UserNotFoundError } from "../../errors/UserNotFoundError";
 import { AuthInputDto } from "./AuthInputDto";
 
@@ -11,10 +13,11 @@ export class AuthUseCase {
 
     if (!userEntity) throw new UserNotFoundError();
 
-    // const user = BuildExistingUser.execute(userEntity);
+    const user = BuildExistingUser.execute(userEntity);
 
-    // const { currentPassword, newPassword } = input;
-    // user.changePassword(newPassword, currentPassword);
+    const passwordIsCorrect = user.passwordIsCorrect(password);
+
+    if (!passwordIsCorrect) throw new IncorrectPasswordError();
 
     // await this.usersRepository.update(GetDataFromUser.execute(user));
   }

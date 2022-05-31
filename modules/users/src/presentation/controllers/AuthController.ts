@@ -5,7 +5,9 @@ import {
   httpNotFound,
   httpOk,
   httpServerError,
+  httpUnauthorized,
 } from "../../../../../helpers/responses/httpResponses";
+import { IncorrectPasswordError } from "../../app/errors/IncorrectPasswordError";
 import { UserNotFoundError } from "../../app/errors/UserNotFoundError";
 import { AuthInputDto } from "../../app/useCases/Auth/AuthInputDto";
 import { AuthUseCase } from "../../app/useCases/Auth/AuthUseCase";
@@ -29,8 +31,8 @@ export class AuthController {
 
       if (error instanceof UserNotFoundError) return httpNotFound(res, error);
 
-      // if (error instanceof InvalidPasswordError)
-      //   return httpUnauthorized(res, error);
+      if (error instanceof IncorrectPasswordError)
+        return httpUnauthorized(res, error);
 
       return httpServerError(res, error);
     }
