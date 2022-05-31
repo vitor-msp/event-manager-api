@@ -2,12 +2,14 @@ import { IUsersRepository } from "../../../infra/repositories/usersRepository/IU
 import { BuildExistingUser } from "../../conversors/BuildExistingUser";
 import { IncorrectPasswordError } from "../../errors/IncorrectPasswordError";
 import { UserNotFoundError } from "../../errors/UserNotFoundError";
+import { GenerateJwt } from "../../helpers/GenerateJwt";
 import { AuthInputDto } from "./AuthInputDto";
+import { AuthOutputDto } from "./AuthOutputDto";
 
 export class AuthUseCase {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
-  public async execute(input: AuthInputDto): Promise<void> {
+  public async execute(input: AuthInputDto): Promise<AuthOutputDto> {
     const { email, password } = input;
     const userEntity = await this.usersRepository.selectByEmail(email);
 
@@ -19,6 +21,10 @@ export class AuthUseCase {
 
     if (!passwordIsCorrect) throw new IncorrectPasswordError();
 
-    // await this.usersRepository.update(GetDataFromUser.execute(user));
+    const jwtPayload = GenerateJwt.execute({ userId: user.getData().id });
+
+    return {
+      jwt: jwtPayload,
+    };
   }
 }

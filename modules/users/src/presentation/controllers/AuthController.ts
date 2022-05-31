@@ -22,9 +22,9 @@ export class AuthController {
 
       const input: AuthInputDto = req.body;
 
-      await this.authUseCase.execute(input);
+      const output = await this.authUseCase.execute(input);
 
-      return httpOk(res);
+      return httpOk(res, output);
     } catch (error: any) {
       if (error instanceof InvalidRequestError)
         return httpBadRequest(res, error);
