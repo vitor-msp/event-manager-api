@@ -2,29 +2,32 @@ import { Request, Response } from "express";
 import { InvalidRequestError } from "../../../../../helpers/errors/InvalidRequestError";
 import {
   httpBadRequest,
+  httpNotFound,
   httpOk,
   httpServerError,
 } from "../../../../../helpers/responses/httpResponses";
+import { UserNotFoundError } from "../../app/errors/UserNotFoundError";
+import { AuthInputDto } from "../../app/useCases/Auth/AuthInputDto";
+import { AuthUseCase } from "../../app/useCases/Auth/AuthUseCase";
 import { authValidator } from "../validators/authValidator";
 
 export class AuthController {
-  // constructor(private readonly changePasswordUseCase: ChangePasswordUseCase) {}
+  constructor(private readonly authUseCase: AuthUseCase) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       authValidator(req);
 
-      // const userId: number = +req.query.userId!;
-      // const input: ChangePasswordInputDto = req.body;
+      const input: AuthInputDto = req.body;
 
-      // await this.changePasswordUseCase.execute(userId, input);
+      await this.authUseCase.execute(input);
 
       return httpOk(res);
     } catch (error: any) {
       if (error instanceof InvalidRequestError)
         return httpBadRequest(res, error);
 
-      // if (error instanceof UserNotFoundError) return httpNotFound(res, error);
+      if (error instanceof UserNotFoundError) return httpNotFound(res, error);
 
       // if (error instanceof InvalidPasswordError)
       //   return httpUnauthorized(res, error);

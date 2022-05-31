@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import { AuthUseCase } from "../app/useCases/Auth/AuthUseCase";
 import { ChangePasswordUseCase } from "../app/useCases/ChangePassword/ChangePasswordUseCase";
 import { CreateUserUseCase } from "../app/useCases/CreateUser/CreateUserUseCase";
 import { EditUserUseCase } from "../app/useCases/EditUser/EditUserUseCase";
@@ -11,13 +12,13 @@ import { CreateUserController } from "../presentation/controllers/CreateUserCont
 import { EditUserController } from "../presentation/controllers/EditUserController";
 import { GetUserDataController } from "../presentation/controllers/GetUserDataController";
 
-const dataSource = new DataSource(dbOptions)
+const dataSource = new DataSource(dbOptions);
 const usersRepositoryPG = new UsersRepositoryPG(dataSource);
 
 const createUserUseCase = new CreateUserUseCase(usersRepositoryPG);
 const createUserController = new CreateUserController(createUserUseCase);
 
-const getUserDataUseCase = new GetUserDataUseCase(usersRepositoryPG)
+const getUserDataUseCase = new GetUserDataUseCase(usersRepositoryPG);
 const getUserDataController = new GetUserDataController(getUserDataUseCase);
 
 const editUserUseCase = new EditUserUseCase(usersRepositoryPG);
@@ -28,7 +29,8 @@ const changePasswordController = new ChangePasswordController(
   changePasswordUseCase
 );
 
-const authController = new AuthController();
+const authUseCase = new AuthUseCase(usersRepositoryPG);
+const authController = new AuthController(authUseCase);
 
 export {
   dataSource,

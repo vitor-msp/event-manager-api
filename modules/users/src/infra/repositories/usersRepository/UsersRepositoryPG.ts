@@ -45,4 +45,8 @@ export class UsersRepositoryPG implements IUsersRepository {
 
     await this.usersRepository.save(userEntity);
   }
+
+  async selectByEmail(email: string): Promise<IUser | null> {
+    return await this.usersRepository.findOneBy({ email });
+  }
 }

@@ -10,4 +10,6 @@ export interface IUsersRepository {
   select(userId: number): Promise<IUser | null>;
 
   update(user: IUser): Promise<void>;
+
+  selectByEmail(email: string): Promise<IUser | null>;
 }
