@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { changePasswordController, createUserController, editUserController, getUserDataController } from "./factory";
+import { authController, changePasswordController, createUserController, editUserController, getUserDataController } from "./factory";
 
 const router = Router();
 
@@ -17,6 +17,10 @@ router.put("/user", (req: Request, res: Response) => {
 
 router.put("/user/password", (req: Request, res: Response) => {
     changePasswordController.handle(req, res);
+});
+
+router.post("/user/auth", (req: Request, res: Response) => {
+    authController.handle(req, res);
 });
 
 export {router as usersRouter};

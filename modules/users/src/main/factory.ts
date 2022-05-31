@@ -5,6 +5,7 @@ import { EditUserUseCase } from "../app/useCases/EditUser/EditUserUseCase";
 import { GetUserDataUseCase } from "../app/useCases/GetUserData/GetUserDataUseCase";
 import { dbOptions } from "../infra/database/config/configDB";
 import { UsersRepositoryPG } from "../infra/repositories/usersRepository/UsersRepositoryPG";
+import { AuthController } from "../presentation/controllers/AuthController";
 import { ChangePasswordController } from "../presentation/controllers/ChangePasswordController";
 import { CreateUserController } from "../presentation/controllers/CreateUserController";
 import { EditUserController } from "../presentation/controllers/EditUserController";
@@ -27,10 +28,13 @@ const changePasswordController = new ChangePasswordController(
   changePasswordUseCase
 );
 
+const authController = new AuthController();
+
 export {
   dataSource,
   createUserController,
   getUserDataController,
   editUserController,
   changePasswordController,
+  authController,
 };
