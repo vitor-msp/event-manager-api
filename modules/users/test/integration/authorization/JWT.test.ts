@@ -3,6 +3,8 @@ import express from "express";
 import { App } from "../../../../../main/app";
 import { dataSource } from "../../../src/main/factory";
 import { ErrorResponse } from "../../../../../helpers/responses/httpResponses";
+import { UserEntity } from "../../../src/infra/database/schemas/UserEntity";
+import { GenerateJwt } from "../../../src/app/helpers/GenerateJwt";
 
 describe("JWT Test", () => {
   let app: express.Application | null;
@@ -41,6 +43,29 @@ describe("JWT Test", () => {
 
     expect(res.statusCode).toBe(401);
     expect(res.body).toHaveProperty("message");
+  });
+
+  it("should receive ok for a valid jwt", async () => {
+    await dataSource.getRepository(UserEntity).clear();
+    const user = new UserEntity();
+    user.email = "teste@teste.com";
+    user.name = "User Test";
+    user.password = "teste123";
+    await dataSource.getRepository(UserEntity).save(user);
+
+    const token = GenerateJwt.execute({ userId: user.id });
+    const res: request.Response = await request(app)
+      .get("/user")
+      .auth(token, { type: "bearer" })
+      .send();
+
+    const resBody = {
+      email: "teste@teste.com",
+      id: user.id,
+      name: "User Test",
+    };
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual(resBody);
   });
 
   afterAll(async () => {

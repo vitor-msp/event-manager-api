@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import {
-  httpBadRequest,
   httpForbidden,
   httpUnauthorized,
 } from "../responses/httpResponses";
@@ -19,7 +18,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     if (err) return httpUnauthorized(res, err);
 
     // @ts-ignore
-    req.userId = decoded.userdId;
+    req.query.userId = decoded.userId;
 
     next();
   });

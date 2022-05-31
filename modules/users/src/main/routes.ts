@@ -1,11 +1,17 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { verifyJWT } from "../../../../helpers/jwt/VerifyJWT";
-import { authController, changePasswordController, createUserController, editUserController, getUserDataController } from "./factory";
+import {
+  authController,
+  changePasswordController,
+  createUserController,
+  editUserController,
+  getUserDataController,
+} from "./factory";
 
 const router = Router();
 
 router.post("/user", (req: Request, res: Response) => {
-    createUserController.handle(req, res);
+  createUserController.handle(req, res);
 });
 
 router.get("/user", verifyJWT, (req: Request, res: Response) => {
@@ -13,15 +19,15 @@ router.get("/user", verifyJWT, (req: Request, res: Response) => {
 });
 
 router.put("/user", (req: Request, res: Response) => {
-    editUserController.handle(req, res);
+  editUserController.handle(req, res);
 });
 
 router.put("/user/password", (req: Request, res: Response) => {
-    changePasswordController.handle(req, res);
+  changePasswordController.handle(req, res);
 });
 
 router.post("/user/auth", (req: Request, res: Response) => {
-    authController.handle(req, res);
+  authController.handle(req, res);
 });
 
-export {router as usersRouter};
+export { router as usersRouter };
