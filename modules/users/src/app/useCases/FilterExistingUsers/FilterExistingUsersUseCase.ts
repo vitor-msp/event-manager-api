@@ -7,6 +7,8 @@ export class FilterExistingUsersUseCase {
   public async execute(
     anyUsers: FilterExistingUsersDto
   ): Promise<FilterExistingUsersDto> {
+    if (anyUsers.users.length === 0) return { users: [] };
+
     const usersId: number[] = anyUsers.users.map(({ id }) => id);
 
     const existingUsers = await this.usersRepository.filterExisting(usersId);

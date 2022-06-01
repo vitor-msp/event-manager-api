@@ -69,6 +69,19 @@ describe("Filter Existing Users Use Case", () => {
     expect(res).toEqual(existingUsers);
   });
 
+  it("should filter existing users in an empty list", async () => {
+    const anyUsers: FilterExistingUsersDto = {
+      users: [],
+    };
+
+    const res = await useCase!.execute(anyUsers);
+
+    const existingUsers: FilterExistingUsersDto = {
+      users: [],
+    };
+    expect(res).toEqual(existingUsers);
+  });
+
   afterAll(async () => {
     await dataSource.destroy();
     app = null;
