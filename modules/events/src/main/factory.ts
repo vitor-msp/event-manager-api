@@ -1,3 +1,4 @@
+import { filterExistingUsersUseCase } from "../../../users/src/main/factory";
 import { CancelEventUseCase } from "../app/useCases/CancelEvent/CancelEventUseCase";
 import { CreateEventUseCase } from "../app/useCases/CreateEvent/CreateEventUseCase";
 import { EditEventUseCase } from "../app/useCases/EditEvent/EditEventUseCase";
@@ -12,7 +13,7 @@ import { ExitOfTheEventController } from "../presentation/controllers/ExitOfTheE
 import { FindEventsController } from "../presentation/controllers/FindEventsController";
 
 const eventRepositoryMongo = new EventRepositoryMongo();
-const usersService = new UsersService();
+const usersService = new UsersService(filterExistingUsersUseCase);
 
 const createEventUseCase = new CreateEventUseCase(
   eventRepositoryMongo,
@@ -20,7 +21,10 @@ const createEventUseCase = new CreateEventUseCase(
 );
 const createEventController = new CreateEventController(createEventUseCase);
 
-const editEventUseCase = new EditEventUseCase(eventRepositoryMongo, usersService);
+const editEventUseCase = new EditEventUseCase(
+  eventRepositoryMongo,
+  usersService
+);
 const editEventController = new EditEventController(editEventUseCase);
 
 const cancelEventUseCase = new CancelEventUseCase(eventRepositoryMongo);
