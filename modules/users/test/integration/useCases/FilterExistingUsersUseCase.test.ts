@@ -47,6 +47,28 @@ describe("Filter Existing Users Use Case", () => {
     expect(res).toEqual(existingUsers);
   });
 
+  it("should filter existing users in a list with duplicated users", async () => {
+    const anyUsers: FilterExistingUsersDto = {
+      users: [
+        { id: 1 },
+        { id: user1.id },
+        { id: 2 },
+        { id: user2.id },
+        { id: 1 },
+        { id: user1.id },
+        { id: 2 },
+        { id: user2.id },
+      ],
+    };
+
+    const res = await useCase!.execute(anyUsers);
+
+    const existingUsers: FilterExistingUsersDto = {
+      users: [{ id: user1.id }, { id: user2.id }],
+    };
+    expect(res).toEqual(existingUsers);
+  });
+
   afterAll(async () => {
     await dataSource.destroy();
     app = null;
