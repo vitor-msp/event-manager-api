@@ -25,12 +25,12 @@ export class App {
   }
 
   private async database(): Promise<void> {
-    // await EventsDB.connect();
+    await EventsDB.connect();
     await UsersDB.connect();
   }
 
   private routes(): void {
-    // this.express.use(eventsRouter);
+    this.express.use(eventsRouter);
     this.express.use(usersRouter);
   }
 }
