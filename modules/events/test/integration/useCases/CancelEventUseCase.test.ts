@@ -1,14 +1,14 @@
 import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
+import { AppEvents } from "../mocks/appEvents.mock";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { IEvent } from "../../../src/app/interfaces/IEvent";
-import { App } from "../../../../../main/app";
 
 let app: express.Application | null;
 beforeAll(async () => {
-  app = new App().express;
+    app = (await new AppEvents().run()).express;
 });
 
 const saveEvent = async () => {

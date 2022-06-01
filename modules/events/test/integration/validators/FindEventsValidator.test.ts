@@ -1,14 +1,14 @@
 import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
+import { AppEvents } from "../mocks/appEvents.mock";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
 import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
-import { App } from "../../../../../main/app";
 
 describe("Find Events Validator", () => {
   let app: express.Application | null;
   beforeAll(async () => {
-    app = new App().express;
+    app = (await new AppEvents().run()).express;
   });
 
   it("should return invalid request error missing user id", async () => {

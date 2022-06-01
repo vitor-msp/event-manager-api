@@ -1,14 +1,14 @@
 import request from "supertest";
 import express from "express";
 import mongoose from "mongoose";
+import { AppEvents } from "../mocks/appEvents.mock";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { IEvent } from "../../../src/app/interfaces/IEvent";
-import { App } from "../../../../../main/app";
 
 describe("Create Event Use Case", () => {
   let app: express.Application | null;
   beforeAll(async () => {
-    app = new App().express;
+    app = (await new AppEvents().run()).express;
   });
 
   it("should receive created for a valid event containing guests", async () => {
