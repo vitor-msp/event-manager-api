@@ -3,6 +3,7 @@ import { AuthUseCase } from "../app/useCases/Auth/AuthUseCase";
 import { ChangePasswordUseCase } from "../app/useCases/ChangePassword/ChangePasswordUseCase";
 import { CreateUserUseCase } from "../app/useCases/CreateUser/CreateUserUseCase";
 import { EditUserUseCase } from "../app/useCases/EditUser/EditUserUseCase";
+import { FilterExistingUsersUseCase } from "../app/useCases/FilterExistingUsers/FilterExistingUsersUseCase";
 import { GetUserDataUseCase } from "../app/useCases/GetUserData/GetUserDataUseCase";
 import { GetUsersUseCase } from "../app/useCases/GetUsers/GetUsersUseCase";
 import { dbOptions } from "../infra/database/config/configDB";
@@ -37,6 +38,10 @@ const authController = new AuthController(authUseCase);
 const getUsersUseCase = new GetUsersUseCase(usersRepositoryPG);
 const getUsersController = new GetUsersController(getUsersUseCase);
 
+const filterExistingUsersUseCase = new FilterExistingUsersUseCase(
+  usersRepositoryPG
+);
+
 export {
   dataSource,
   createUserController,
@@ -45,4 +50,5 @@ export {
   changePasswordController,
   authController,
   getUsersController,
+  filterExistingUsersUseCase,
 };

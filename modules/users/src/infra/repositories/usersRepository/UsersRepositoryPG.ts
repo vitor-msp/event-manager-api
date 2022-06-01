@@ -1,7 +1,6 @@
 import { DataSource, Repository } from "typeorm";
 import { IUser } from "../../../app/interfaces/IUser";
 import { CreateUserOutputDto } from "../../../app/useCases/CreateUser/CreateUserOutputDto";
-import { GetUserDataOutputDto } from "../../../app/useCases/GetUserData/GetUserDataOutputDto";
 import { UserEntity } from "../../database/schemas/UserEntity";
 import { IUsersRepository } from "./IUsersRepository";
 
@@ -52,5 +51,13 @@ export class UsersRepositoryPG implements IUsersRepository {
 
   async selectMany(): Promise<IUser[]> {
     return await this.usersRepository.find();
+  }
+
+  async filterExisting(usersId: number[]): Promise<UserEntity[]> {
+    return await this.usersRepository
+      .createQueryBuilder("user")
+      .select("user.id")
+      .where("user.id IN (:...ids)", { ids: usersId })
+      .getMany();
   }
 }
