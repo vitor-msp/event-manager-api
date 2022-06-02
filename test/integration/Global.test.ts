@@ -1,10 +1,10 @@
 import express from "express";
 import request from "supertest";
 import mongoose from "mongoose";
-import { App } from "../../main/app";
-import { UserEntity } from "../../modules/users/src/infra/database/schemas/UserEntity";
-import { dataSource } from "../../modules/users/src/main/factory";
-import { EventModel } from "../../modules/events/src/infra/database/schemas/EventSchema";
+import { App } from "../../src/main/app";
+import { UserEntity } from "../../src/modules/users/src/infra/database/schemas/UserEntity";
+import { dataSource } from "../../src/modules/users/src/main/factory";
+import { EventModel } from "../../src/modules/events/src/infra/database/schemas/EventSchema";
 
 describe("Global Test", () => {
   let app: express.Application | null;

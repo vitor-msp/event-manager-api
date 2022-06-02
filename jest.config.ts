@@ -7,7 +7,7 @@ export default {
     "!**/*Dto.ts",
     "!**/domain/types/*Data.ts",
     "!*.*",
-    "!main/server.ts",
+    "!src/main/server.ts",
     "!**/*.mock.ts",
   ],
   coverageDirectory: "test/coverage",
