@@ -1,5 +1,5 @@
 export default {
-  // bail: 1,
+  bail: 1,
   clearMocks: true,
   // collectCoverage: true,
   collectCoverageFrom: [
@@ -15,6 +15,6 @@ export default {
   testMatch: [
     // "**/modules/users/test/integration/**/*.test.ts?(x)",
     // "**/events/test/**/*.test.ts?(x)",
-    "**/EditEventUseCase.test.ts",
+    "**/Global.test.ts",
   ],
 };
