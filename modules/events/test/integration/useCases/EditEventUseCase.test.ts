@@ -42,20 +42,6 @@ const saveEvent = async (
   await EventModel.create(event);
 };
 
-// const insertUsers = async () => {
-//   await dataSource
-//     .createQueryBuilder()
-//     .insert()
-//     .into(UserEntity)
-//     .values([
-//       { id: 1, email: "1", name: "1", password: "1" },
-//       { id: 2, email: "2", name: "2", password: "2" },
-//       { id: 3, email: "3", name: "3", password: "3" },
-//       { id: 4, email: "4", name: "4", password: "4" },
-//     ])
-//     .execute();
-// };
-
 const insertUsers = async (): Promise<number[]> => {
   const userId1 = await insertUser({
     email: "u1@teste.com",
@@ -176,7 +162,7 @@ describe("Edit Event Use Case", () => {
   });
 
   it("should receive ok when creator edit an event", async () => {
-    await saveEvent();
+    await saveEvent(userId1, userId2, userId3);
     const newEventStart = new Date();
     const reqBody = {
       id: 1,
@@ -184,27 +170,27 @@ describe("Edit Event Use Case", () => {
       start: newEventStart,
       duration: 0,
       guests: [
-        { user: 4, permission: "Viewer" },
-        { user: 3, permission: "Editor" },
+        { user: userId4, permission: "Viewer" },
+        { user: userId3, permission: "Editor" },
       ],
-      guestsToRemove: [2],
+      guestsToRemove: [userId2],
     };
 
     const res: request.Response = await request(eventsApp)
       .put("/event")
-      .query({ userId: "1" })
+      .query({ userId: userId1 })
       .send(reqBody);
 
     expect(res.statusCode).toBe(200);
     const savedEvent: IEvent | null = await EventModel.findOne({ id: 1 });
     const { id, creator, title, start, duration, guests } = savedEvent!;
     expect(id).toBe(1);
-    expect(creator).toBe(1);
+    expect(creator).toBe(userId1);
     expect(title).toBe("Event Test Edited");
     expect(start.toISOString()).toBe(newEventStart.toISOString());
     expect(duration).toBe(0);
     expect(guests.toString()).toEqual(
-      "{ user: 3, permission: 'Editor' },{ user: 4, permission: 'Viewer' }"
+      `{ user: ${userId3}, permission: 'Editor' },{ user: ${userId4}, permission: 'Viewer' }`
     );
   });
 });
