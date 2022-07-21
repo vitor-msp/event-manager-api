@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 export abstract class EventsDB {
   public static async connect(): Promise<void> {
     const url =
-      process.env.MONGO_URI || `mongodb://localhost:27017/event-manager`;
+      `mongodb://mongo:27017/event-manager` ||
+      `mongodb://localhost:27017/event-manager`;
 
     await mongoose
       .connect(url)
