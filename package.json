@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/main/server.ts",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "build": "rm -rf ./dist && tsc",
+    "start": "node ./dist/main/server.js"
   },
   "repository": {
     "type": "git",
