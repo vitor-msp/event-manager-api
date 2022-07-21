@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    # volumes:
+    #   - ./data:/data/db
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: admin
+
+  api:
+    container_name: event-manager-api
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+      - postgres
