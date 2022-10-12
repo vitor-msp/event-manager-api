@@ -15,6 +15,7 @@ let usersApp: express.Application | null;
 let userId1: number, userId2: number, userId3: number, userId4: number;
 
 beforeAll(async () => {
+  jest.setTimeout(100000);
   eventsApp = (await new AppEvents().run()).express;
   usersApp = (await new AppUsers().run()).express;
   await dataSource.getRepository(UserEntity).clear();
