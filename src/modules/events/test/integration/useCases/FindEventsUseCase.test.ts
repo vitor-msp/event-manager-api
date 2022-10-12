@@ -7,7 +7,7 @@ import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEv
 
 let app: express.Application | null;
 beforeAll(async () => {
-    app = (await new AppEvents().run()).express;
+  app = (await new AppEvents().run()).express;
   await EventModel.deleteMany();
   await saveEvents();
 });
@@ -18,6 +18,17 @@ const saveEvents = async () => {
     creator: 1,
     title: "Event 1",
     start: new Date(2022, 3, 30, 23, 59, 59),
+  });
+
+  await EventModel.create({
+    id: 5,
+    creator: 2,
+    title: "Event 5",
+    start: new Date(2022, 4, 31, 23, 59, 59),
+    guests: [
+      { user: 1, permission: "Editor" },
+      { user: 3, permission: "Viewer" },
+    ],
   });
 
   await EventModel.create({
@@ -42,17 +53,6 @@ const saveEvents = async () => {
     guests: [
       { user: 3, permission: "Viewer" },
       { user: 4, permission: "Editor" },
-    ],
-  });
-
-  await EventModel.create({
-    id: 5,
-    creator: 2,
-    title: "Event 5",
-    start: new Date(2022, 4, 31, 23, 59, 59),
-    guests: [
-      { user: 1, permission: "Editor" },
-      { user: 3, permission: "Viewer" },
     ],
   });
 

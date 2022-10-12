@@ -1,6 +1,5 @@
 import { IEvent } from "../../../app/interfaces/IEvent";
 import { CreateEventOutputDto } from "../../../app/useCases/CreateEvent/CreateEventOutputDto";
-import { FindEventsIntputDto } from "../../../app/useCases/FindEvents/FindEventsIntputDto";
 
 export interface IEventRepository {
   insert(event: IEvent): Promise<CreateEventOutputDto>;

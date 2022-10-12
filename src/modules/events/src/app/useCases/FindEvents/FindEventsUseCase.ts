@@ -1,9 +1,13 @@
 import { IEvent } from "../../interfaces/IEvent";
 import { IEventRepository } from "../../../infra/repositories/eventRepository/IEventRepository";
 import { FindEventsIntputDto } from "./FindEventsIntputDto";
+import { ISortEvents } from "../../utils/ISortEvents";
 
 export class FindEventsUseCase {
-  constructor(private readonly eventRepository: IEventRepository) {}
+  constructor(
+    private readonly eventRepository: IEventRepository,
+    private readonly sortEvents: ISortEvents | null = null
+  ) {}
 
   public async execute(
     periodDto: FindEventsIntputDto,
@@ -11,10 +15,12 @@ export class FindEventsUseCase {
   ): Promise<IEvent[]> {
     const { month, year } = periodDto;
 
-    return await this.eventRepository.selectByPeriod({
+    const events = await this.eventRepository.selectByPeriod({
       userId: currentUserId,
       month,
       year,
     });
+
+    return this.sortEvents ? this.sortEvents.run(events) : events;
   }
 }

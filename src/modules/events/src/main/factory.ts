@@ -4,6 +4,7 @@ import { CreateEventUseCase } from "../app/useCases/CreateEvent/CreateEventUseCa
 import { EditEventUseCase } from "../app/useCases/EditEvent/EditEventUseCase";
 import { ExitOfTheEventUseCase } from "../app/useCases/ExitOfTheEvent/ExitOfTheEventUseCase";
 import { FindEventsUseCase } from "../app/useCases/FindEvents/FindEventsUseCase";
+import { SortEvents } from "../app/utils/SortEvents";
 import { EventRepositoryMongo } from "../infra/repositories/eventRepository/EventRepositoryMongo";
 import { UsersService } from "../infra/usersService/UsersService";
 import { CancelEventController } from "../presentation/controllers/CancelEventController";
@@ -35,7 +36,11 @@ const exitOfTheEventController = new ExitOfTheEventController(
   exitOfTheEventUseCase
 );
 
-const findEventsUseCase = new FindEventsUseCase(eventRepositoryMongo);
+const sortEvents = new SortEvents();
+const findEventsUseCase = new FindEventsUseCase(
+  eventRepositoryMongo,
+  sortEvents
+);
 const findEventsController = new FindEventsController(findEventsUseCase);
 
 export {
