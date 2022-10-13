@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { AppEvents } from "../mocks/appEvents.mock";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
 import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
+import { FindEventsOutputDto } from "../../../src/app/useCases/FindEvents/FindEventsOutputDto";
 
 let app: express.Application | null;
 beforeAll(async () => {
@@ -32,17 +33,17 @@ const saveEvents = async () => {
   });
 
   await EventModel.create({
-    id: 2,
-    creator: 1,
-    title: "Event 2",
-    start: new Date(2022, 4, 1, 0, 0, 0),
-  });
-
-  await EventModel.create({
     id: 3,
     creator: 1,
     title: "Event 3",
     start: new Date(2022, 4, 1, 0, 0, 1),
+  });
+
+  await EventModel.create({
+    id: 2,
+    creator: 1,
+    title: "Event 2",
+    start: new Date(2022, 4, 1, 0, 0, 0),
   });
 
   await EventModel.create({
@@ -91,35 +92,52 @@ describe("Find Events Use Case", () => {
       .query({ userId: "1" })
       .send(reqBody);
 
-    const resBody = [
-      {
-        creator: 1,
-        duration: 0,
-        guests: [],
-        id: 2,
-        start: new Date(2022, 4, 1, 0, 0, 0).toISOString(),
-        title: "Event 2",
-      },
-      {
-        creator: 1,
-        duration: 0,
-        guests: [],
-        id: 3,
-        start: new Date(2022, 4, 1, 0, 0, 1).toISOString(),
-        title: "Event 3",
-      },
-      {
-        creator: 2,
-        duration: 0,
-        guests: [
-          { user: 1, permission: "Editor" },
-          { user: 3, permission: "Viewer" },
-        ],
-        id: 5,
-        start: new Date(2022, 4, 31, 23, 59, 59).toISOString(),
-        title: "Event 5",
-      },
-    ];
+    const resBody: FindEventsOutputDto = {
+      year: 2022,
+      month: 4,
+      days: [
+        {
+          day: 1,
+          events: [
+            {
+              creator: 1,
+              duration: 0,
+              guests: [],
+              id: 2,
+              //@ts-ignore
+              start: new Date(2022, 4, 1, 0, 0, 0).toISOString(),
+              title: "Event 2",
+            },
+            {
+              creator: 1,
+              duration: 0,
+              guests: [],
+              id: 3,
+              //@ts-ignore
+              start: new Date(2022, 4, 1, 0, 0, 1).toISOString(),
+              title: "Event 3",
+            },
+          ],
+        },
+        {
+          day: 31,
+          events: [
+            {
+              creator: 2,
+              duration: 0,
+              guests: [
+                { user: 1, permission: "Editor" },
+                { user: 3, permission: "Viewer" },
+              ],
+              id: 5,
+              //@ts-ignore
+              start: new Date(2022, 4, 31, 23, 59, 59).toISOString(),
+              title: "Event 5",
+            },
+          ],
+        },
+      ],
+    };
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual(resBody);
   });
