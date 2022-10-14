@@ -43,7 +43,7 @@ export class PrepareOutputEvents implements IPrepareOutputEvents {
     const output: IDay[] = [];
 
     let currentDay: IDay = {
-      day: 1,
+      day: 0,
       events: [],
     };
 
@@ -52,17 +52,19 @@ export class PrepareOutputEvents implements IPrepareOutputEvents {
         currentDay = this.insertEventInDay(event, currentDay);
       } else if (event.start.getDate() > currentDay.day) {
         output.push(currentDay);
-        
+
         currentDay = {
           day: event.start.getDate(),
           events: [],
         };
-        
+
         currentDay = this.insertEventInDay(event, currentDay);
       }
     });
-    
+
     output.push(currentDay);
+
+    output.shift();
 
     return output;
   }
