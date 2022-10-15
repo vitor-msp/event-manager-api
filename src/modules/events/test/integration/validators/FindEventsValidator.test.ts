@@ -53,7 +53,6 @@ describe("Find Events Validator", () => {
     const errorResponse: ErrorResponse = {
       message: "Invalid Month",
     };
-    console.log(res.body);
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
   });
@@ -72,7 +71,6 @@ describe("Find Events Validator", () => {
     const errorResponse: ErrorResponse = {
       message: "Invalid Year",
     };
-    console.log(res.body);
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
   });

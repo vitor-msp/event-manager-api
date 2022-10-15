@@ -3,7 +3,6 @@ import express from "express";
 import mongoose from "mongoose";
 import { AppEvents } from "../mocks/appEvents.mock";
 import { EventModel } from "../../../src/infra/database/schemas/EventSchema";
-import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
 import { FindEventsOutputDto } from "../../../src/app/useCases/FindEvents/FindEventsOutputDto";
 
 let app: express.Application | null;
@@ -82,15 +81,16 @@ const saveEvents = async () => {
 
 describe("Find Events Use Case", () => {
   it("should receive ok with saved events", async () => {
-    const reqBody: FindEventsIntputDto = {
+    const reqQuery = {
+      userId: "1",
       month: 4,
       year: 2022,
     };
 
     const res: request.Response = await request(app)
       .get("/event")
-      .query({ userId: "1" })
-      .send(reqBody);
+      .query(reqQuery)
+      .send();
 
     const resBody: FindEventsOutputDto = {
       year: 2022,
