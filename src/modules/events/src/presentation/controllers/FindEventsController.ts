@@ -18,7 +18,12 @@ export class FindEventsController {
       findEventsValidator(req);
 
       const userId: number = +req.query.userId!;
-      let input: FindEventsIntputDto = req.body;
+      let input: FindEventsIntputDto = {
+        //@ts-ignore
+        month: req.query.month ? +req.query.month : undefined,
+        //@ts-ignore
+        year: req.query.year ? +req.query.year : undefined,
+      };
 
       if (!input.month || !input.year) input = getDefaultPeriod();
 

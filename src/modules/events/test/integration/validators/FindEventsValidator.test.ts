@@ -3,7 +3,6 @@ import express from "express";
 import mongoose from "mongoose";
 import { AppEvents } from "../mocks/appEvents.mock";
 import { ErrorResponse } from "../../../src/presentation/responses/httpResponses";
-import { FindEventsIntputDto } from "../../../src/app/useCases/FindEvents/FindEventsIntputDto";
 
 describe("Find Events Validator", () => {
   let app: express.Application | null;
@@ -12,10 +11,11 @@ describe("Find Events Validator", () => {
   });
 
   it("should return invalid request error missing user id", async () => {
-    const reqBody = {};
+    const reqQuery = {};
     const res: request.Response = await request(app)
       .get("/event")
-      .send(reqBody);
+      .query(reqQuery)
+      .send();
 
     const errorResponse: ErrorResponse = {
       message: "Missing User Id",
@@ -25,12 +25,12 @@ describe("Find Events Validator", () => {
   });
 
   it("should return invalid request error invalid user id", async () => {
-    const reqBody = {};
+    const reqQuery = { userId: "a" };
 
     const res: request.Response = await request(app)
       .get("/event")
-      .query({ userId: "a" })
-      .send(reqBody);
+      .query(reqQuery)
+      .send();
 
     const errorResponse: ErrorResponse = {
       message: "Invalid User Id",
@@ -40,37 +40,39 @@ describe("Find Events Validator", () => {
   });
 
   it("should return invalid request error invalid month", async () => {
-    const reqBody: FindEventsIntputDto = {
-      //@ts-ignore
+    const reqQuery = {
+      userId: "1",
       month: "a",
-      year: 2022
+      year: 2022,
     };
     const res: request.Response = await request(app)
-    .get("/event")
-    .query({ userId: "1" })
-    .send(reqBody);
-    
+      .get("/event")
+      .query(reqQuery)
+      .send();
+
     const errorResponse: ErrorResponse = {
       message: "Invalid Month",
     };
+    console.log(res.body);
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
   });
   
   it("should return invalid request error invalid year", async () => {
-    const reqBody: FindEventsIntputDto = {
+    const reqQuery = {
+      userId: "1",
       month: 5,
-      //@ts-ignore
       year: "a",
     };
     const res: request.Response = await request(app)
-      .get("/event")
-      .query({ userId: "1" })
-      .send(reqBody);
-
+    .get("/event")
+    .query(reqQuery)
+    .send();
+    
     const errorResponse: ErrorResponse = {
       message: "Invalid Year",
     };
+    console.log(res.body);
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual(errorResponse);
   });
