@@ -5,6 +5,7 @@ import { App } from "../../src/main/app";
 import { UserEntity } from "../../src/modules/users/src/infra/database/schemas/UserEntity";
 import { dataSource } from "../../src/modules/users/src/main/factory";
 import { EventModel } from "../../src/modules/events/src/infra/database/schemas/EventSchema";
+import { FindEventsOutputDto } from "../../src/modules/events/src/app/useCases/FindEvents/FindEventsOutputDto";
 
 describe("Global Test", () => {
   let app: express.Application | null;
@@ -85,16 +86,28 @@ describe("Global Test", () => {
     res = await request(app).get("/event").auth(jwt, { type: "bearer" }).send();
     console.log(res.body);
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual([
-      {
-        creator: user1Id,
-        duration: 60 * 60,
-        guests: [{ user: user2Id, permission: "Editor" }],
-        id: eventId,
-        start: eventStart,
-        title: "Event Test",
-      },
-    ]);
+
+    const resBody: FindEventsOutputDto = {
+      year: new Date(eventStart).getFullYear(),
+      month: new Date(eventStart).getMonth(),
+      days: [
+        {
+          day: new Date(eventStart).getDate(),
+          events: [
+            {
+              creator: user1Id,
+              duration: 60 * 60,
+              guests: [{ user: user2Id, permission: "Editor" }],
+              id: eventId,
+              //@ts-ignore
+              start: eventStart,
+              title: "Event Test",
+            },
+          ],
+        },
+      ],
+    };
+    expect(res.body).toEqual(resBody);
   });
 
   afterAll(async () => {
