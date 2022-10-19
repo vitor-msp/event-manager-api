@@ -1,7 +1,7 @@
 export default {
   bail: 1,
   clearMocks: true,
-  // collectCoverage: true,
+  collectCoverage: true,
   collectCoverageFrom: [
     "!**/I*.ts",
     "!**/*Dto.ts",
@@ -14,5 +14,4 @@ export default {
   coverageProvider: "v8",
   preset: "ts-jest",
   testMatch: ["**/**/*.test.ts?(x)"],
-  // setupFilesAfterEnv: ["./jestSetup.js"],
 };
