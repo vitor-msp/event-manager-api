@@ -4,7 +4,10 @@ import { dataSource } from "./factory";
 
 export abstract class UsersDB {
   public static async connect(): Promise<void> {
-    await createDatabase({ options: dbOptions, ifNotExist: true });
+    await createDatabase({
+      options: dbOptions,
+      ifNotExist: true,
+    });
 
     await dataSource
       .initialize()

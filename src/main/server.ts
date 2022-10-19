@@ -1,7 +1,10 @@
 import { App } from "./app";
+import dotenv from "dotenv";
 
 (async () => {
-  const port = process.env.PORT || 8080;
+  dotenv.config();
+
+  const port = process.env.PORT;
 
   const app = await new App().run();
 
