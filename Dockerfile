@@ -12,6 +12,7 @@ FROM node:latest
 RUN mkdir /api
 WORKDIR /api
 COPY package.json .
+COPY .env .
 COPY --from=builder /api/dist ./dist
 RUN npm install --only=production
 EXPOSE 8080

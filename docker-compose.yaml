@@ -5,24 +5,18 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    # ports:
-    #   - "27017:27017"
-    # volumes:
-    #   - ./data:/data/db
 
   postgres:
     container_name: postgres
     image: postgres
     environment:
       POSTGRES_PASSWORD: admin
-    # ports:
-    #   - "5432:5432"
 
   api:
     container_name: event-manager-api
     build: .
     ports:
       - "8080:8080"
-    links:
+    depends_on:
       - mongo
       - postgres

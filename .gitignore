@@ -45,7 +45,8 @@ yarn-error.log*
 
 # End of https://www.toptal.com/developers/gitignore/api/react,visualstudiocode
 
-**/dist/**
+dist
 **/coverage/**
 **/data/**
 .env
+.env.dev
