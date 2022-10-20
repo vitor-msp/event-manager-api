@@ -1,6 +1,6 @@
 # Event Manager API
 
-Api to management events (inspired by Google Calendar).
+Api for event management (inspired by Google Calendar).
 
 The frontend can be access [here](https://github.com/vitor-msp/event-manager-react)
 
