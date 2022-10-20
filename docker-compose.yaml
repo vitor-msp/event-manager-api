@@ -14,7 +14,7 @@ services:
 
   api:
     container_name: event-manager-api
-    build: .
+    image: vitormsp/event-manager-api
     ports:
       - "8080:8080"
     depends_on:
