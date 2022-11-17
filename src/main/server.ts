@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 (async () => {
   dotenv.config();
 
-  const port = process.env.SERVER_PORT;
+  const port = process.env.PORT;
 
   const app = await new App().run();
 
