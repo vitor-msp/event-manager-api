@@ -25,5 +25,3 @@ sudo docker-compose up -d
 ## Notes
 
 1. The port 8080 in your machine must be free
-
-2. Documentation to do...
