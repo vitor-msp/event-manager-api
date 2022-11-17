@@ -11,7 +11,7 @@ export const dbOptions: DataSourceOptions = {
   port: +process.env.USERS_DB_PORT!,
   username: process.env.USERS_DB_USERNAME,
   password: process.env.USERS_DB_PASSWORD,
-  database: "event-manager",
+  database: process.env.USERS_DB_NAME,
   entities: [UserEntity],
   synchronize: true,
   logging: false,
